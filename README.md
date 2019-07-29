@@ -8,4 +8,4 @@ https://www.youtube.com/channel/UCZ3x8YCC2HFBKrUk3RrCn1Q/videos?view=0&sort=dd&s
 
 Todo:
 
-Ex2Demo1 - Если параметр компонента «Установить свойство страницы specialdate» активен, то:
+Ex2Demo1 - 2. [ex2-51] Изменение данных в письме
