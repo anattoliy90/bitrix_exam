@@ -8,4 +8,7 @@ https://www.youtube.com/channel/UCZ3x8YCC2HFBKrUk3RrCn1Q/videos?view=0&sort=dd&s
 
 Todo:
 
-Ex2Demo1 - 2. [ex2-51] Изменение данных в письме
+- init.php - заменить текст на GetMessage("")
+
+- Ex2Demo1 - Добавлять запись в журнал событий: «Замена данных в отсылаемом письме – [AUTHOR]». Где
+[AUTHOR] - это данные макроса AUTHOR подставленного в письмо.
