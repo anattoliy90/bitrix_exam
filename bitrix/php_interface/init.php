@@ -10,17 +10,17 @@ class MyClass
             global $USER;
            
             if(!$USER->IsAuthorized()) {
-                $arFields["AUTHOR"] = "Пользователь не авторизован, данные из формы: " . $arFields["AUTHOR"];
+                $arFields["AUTHOR"] = GetMessage("USER_NOT_AUTHORIZED") . $arFields["AUTHOR"];
             } else {
-                $arFields["AUTHOR"] = "Пользователь авторизован: " . $USER->GetID() . " (" . $USER->GetLogin() . ") " . $USER->GetFullName() . ", данные из формы: " . $arFields["AUTHOR"];
+                $arFields["AUTHOR"] = GetMessage("USER_AUTHORIZED") . $USER->GetID() . " (" . $USER->GetLogin() . ") " . $USER->GetFullName() . GetMessage("FORM_DATA") . $arFields["AUTHOR"];
             }
            
             CEventLog::Add(array(
                 "SEVERITY" => "SECURITY",
-                "AUDIT_TYPE_ID" => "Замена данных в отсылаемом письме",
+                "AUDIT_TYPE_ID" => GetMessage("REPLACE_DATA"),
                 "MODULE_ID" => "main",
                 "ITEM_ID" => $USER->GetID(),
-                "DESCRIPTION" => "Замена данных в отсылаемом письме – " . $arFields["AUTHOR"],
+                "DESCRIPTION" => GetMessage("REPLACE_DATA") . " – " . $arFields["AUTHOR"],
             ));
         }
 	}
