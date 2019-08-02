@@ -3,14 +3,11 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
 
 if(!isset($arParams["CACHE_TIME"]))
 	$arParams["CACHE_TIME"] = 36000000;
-
-if(!isset($arParams["CACHE_TIME"]))
-	$arParams["CACHE_TIME"] = 36000000;
 	
 $arParams["CATALOG_IBLOCK_ID"] = (int) $arParams["CATALOG_IBLOCK_ID"];
 $arParams["NEWS_IBLOCK_ID"] = (int) $arParams["NEWS_IBLOCK_ID"];
 
-if(!empty($arIBlockFilter) && $this->StartResultCache(false, ($arParams["CACHE_GROUPS"]==="N"? false: $USER->GetGroups())))
+if($arParams["CATALOG_IBLOCK_ID"] > 0 && $arParams["NEWS_IBLOCK_ID"] > 0)
 {
 	if(!CModule::IncludeModule("iblock"))
 	{
@@ -18,62 +15,33 @@ if(!empty($arIBlockFilter) && $this->StartResultCache(false, ($arParams["CACHE_G
 		ShowError(GetMessage("IBLOCK_MODULE_NOT_INSTALLED"));
 		return;
 	}
-	//SELECT
-	$arSelect = array(
-		"ID",
-		"IBLOCK_ID",
-		"CODE",
-		"IBLOCK_SECTION_ID",
-		"NAME",
-		"PREVIEW_PICTURE",
-		"DETAIL_PICTURE",
-		"DETAIL_PAGE_URL",
-	);
-	//WHERE
-	$arFilter = array(
-		"IBLOCK_ID" => $arParams["IBLOCKS"],
-		"ACTIVE_DATE" => "Y",
-		"ACTIVE"=>"Y",
-		"CHECK_PERMISSIONS"=>"Y",
-	);
-	if($arParams["PARENT_SECTION"]>0)
+	
+	$arr_section = array();
+	$arr_section_id = array();
+	$arr_news = array();
+	
+	$rsSect = CIBlockSection::GetList(array(), array("IBLOCK_ID" => $arParams["CATALOG_IBLOCK_ID"], "ACTIVE"=>"Y", "!".$arParams["USER_PROPERTY"] => false), false, array("ID", "NAME", $arParams["USER_PROPERTY"]), false);
+	while ($arSect = $rsSect->GetNext())
 	{
-		$arFilter["SECTION_ID"] = $arParams["PARENT_SECTION"];
-		$arFilter["INCLUDE_SUBSECTIONS"] = "Y";
+		$arr_section[$arSect["ID"]] = $arSect;
 	}
-	//ORDER BY
-	$arSort = array(
-		"RAND"=>"ASC",
-	);
-	//EXECUTE
-	$rsIBlockElement = CIBlockElement::GetList($arSort, $arFilter, false, false, $arSelect);
-	$rsIBlockElement->SetUrlTemplates($arParams["DETAIL_URL"]);
-	if($arResult = $rsIBlockElement->GetNext())
+	
+	$res = CIBlockElement::GetList(array(), array("IBLOCK_ID" => $arParams["CATALOG_IBLOCK_ID"], "ACTIVE"=>"Y", "SECTION_ID" => array_keys($arr_section)), false, false, array("ID", "NAME", "PROPERTY_MATERIAL", "PROPERTY_ARTNUMBER", "PROPERTY_PRICE", "IBLOCK_SECTION_ID"));
+	while($ob = $res->GetNext())
 	{
-		$arResult["PICTURE"] = CFile::GetFileArray($arResult["PREVIEW_PICTURE"]);
-		if(!is_array($arResult["PICTURE"]))
-			$arResult["PICTURE"] = CFile::GetFileArray($arResult["DETAIL_PICTURE"]);
-
-		$ipropValues = new \Bitrix\Iblock\InheritedProperty\ElementValues($arResult["IBLOCK_ID"], $arResult["ID"]);
-		$arResult["IPROPERTY_VALUES"] = $ipropValues->getValues();
-
-		if ($arResult["PICTURE"])
-		{
-			$arResult["PICTURE"]["ALT"] = $arResult["IPROPERTY_VALUES"]["ELEMENT_PREVIEW_PICTURE_FILE_ALT"];
-			if ($arResult["PICTURE"]["ALT"] == "")
-				$arResult["PICTURE"]["ALT"] = $arResult["NAME"];
-			$arResult["PICTURE"]["TITLE"] = $arResult["IPROPERTY_VALUES"]["ELEMENT_PREVIEW_PICTURE_FILE_TITLE"];
-			if ($arResult["PICTURE"]["TITLE"] == "")
-				$arResult["PICTURE"]["TITLE"] = $arResult["NAME"];
-		}
-
-		$this->SetResultCacheKeys(array(
-		));
-		$this->IncludeComponentTemplate();
+		$arr_section[$ob["IBLOCK_SECTION_ID"]]["ITEMS"][] = $ob;
 	}
-	else
+
+	$rsIBlockElement = CIBlockElement::GetList(array(), array("IBLOCK_ID" => $arParams["NEWS_IBLOCK_ID"], "ACTIVE"=>"Y"), false, false, array("ID", "NAME", "DATE_ACTIVE_FROM"));
+	while($obj = $rsIBlockElement->GetNext())
 	{
-		$this->AbortResultCache();
+		$arr_news[$obj["ID"]] = $obj;
 	}
+	
+	echo "<pre>";print_r($arr_news);echo "</pre>";
+	echo "<pre>";print_r($arr_section);echo "</pre>";
+	
+	//$this->SetResultCacheKeys(array());
+	//$this->IncludeComponentTemplate();
 }
 ?>

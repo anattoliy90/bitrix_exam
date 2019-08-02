@@ -5,13 +5,11 @@
 	"",
 	Array(
 		"COMPONENT_TEMPLATE" => ".default",
-		"IBLOCK_TYPE" => "products",
-		"IBLOCKS" => array("2"),
-		"DETAIL_URL" => "",
+		"CATALOG_IBLOCK_ID" => "2",
+		"NEWS_IBLOCK_ID" => "1",
+		"USER_PROPERTY" => "UF_NEWS_LINK",
 		"CACHE_TYPE" => "A",
-		"CACHE_TIME" => "180",
-		"CACHE_GROUPS" => "Y",
-		"PARENT_SECTION" => ""
+		"CACHE_TIME" => "36000000"
 	)
 );?>
 
