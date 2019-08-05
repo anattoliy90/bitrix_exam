@@ -17,8 +17,7 @@ if($arParams["CATALOG_IBLOCK_ID"] > 0 && $arParams["NEWS_IBLOCK_ID"] > 0)
 	}
 	
 	$arr_section = array();
-	$arr_section_id = array();
-	$arr_news = array();
+	$arResult["ITEMS"] = array();
 	
 	$rsSect = CIBlockSection::GetList(array(), array("IBLOCK_ID" => $arParams["CATALOG_IBLOCK_ID"], "ACTIVE"=>"Y", "!".$arParams["USER_PROPERTY"] => false), false, array("ID", "NAME", $arParams["USER_PROPERTY"]), false);
 	while ($arSect = $rsSect->GetNext())
@@ -29,17 +28,22 @@ if($arParams["CATALOG_IBLOCK_ID"] > 0 && $arParams["NEWS_IBLOCK_ID"] > 0)
 	$res = CIBlockElement::GetList(array(), array("IBLOCK_ID" => $arParams["CATALOG_IBLOCK_ID"], "ACTIVE"=>"Y", "SECTION_ID" => array_keys($arr_section)), false, false, array("ID", "NAME", "PROPERTY_MATERIAL", "PROPERTY_ARTNUMBER", "PROPERTY_PRICE", "IBLOCK_SECTION_ID"));
 	while($ob = $res->GetNext())
 	{
-		$arr_section[$ob["IBLOCK_SECTION_ID"]]["ITEMS"][] = $ob;
+		$arr_section[$ob["IBLOCK_SECTION_ID"]]["PRODUCTS"][] = $ob;
 	}
 
 	$rsIBlockElement = CIBlockElement::GetList(array(), array("IBLOCK_ID" => $arParams["NEWS_IBLOCK_ID"], "ACTIVE"=>"Y"), false, false, array("ID", "NAME", "DATE_ACTIVE_FROM"));
 	while($obj = $rsIBlockElement->GetNext())
-	{
-		$arr_news[$obj["ID"]] = $obj;
+	{							
+		foreach($arr_section as $section) {
+			if(in_array($obj["ID"], $section["UF_NEWS_LINK"])) {
+				$obj["ITEMS"][] = $section;
+			}
+		}
+		
+		$arResult["ITEMS"][] = $obj;
 	}
 	
-	echo "<pre>";print_r($arr_news);echo "</pre>";
-	echo "<pre>";print_r($arr_section);echo "</pre>";
+	echo "<pre>";print_r($arResult);echo "</pre>";
 	
 	//$this->SetResultCacheKeys(array());
 	//$this->IncludeComponentTemplate();
