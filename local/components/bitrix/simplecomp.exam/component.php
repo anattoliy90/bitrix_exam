@@ -18,6 +18,8 @@ if($arParams["CATALOG_IBLOCK_ID"] > 0 && $arParams["NEWS_IBLOCK_ID"] > 0)
 	
 	$arr_section = array();
 	$arResult["ITEMS"] = array();
+	$count = 0;
+	
 	
 	$rsSect = CIBlockSection::GetList(array(), array("IBLOCK_ID" => $arParams["CATALOG_IBLOCK_ID"], "ACTIVE"=>"Y", "!".$arParams["USER_PROPERTY"] => false), false, array("ID", "NAME", $arParams["USER_PROPERTY"]), false);
 	while ($arSect = $rsSect->GetNext())
@@ -29,6 +31,8 @@ if($arParams["CATALOG_IBLOCK_ID"] > 0 && $arParams["NEWS_IBLOCK_ID"] > 0)
 	while($ob = $res->GetNext())
 	{
 		$arr_section[$ob["IBLOCK_SECTION_ID"]]["PRODUCTS"][] = $ob;
+		
+		$count++;
 	}
 
 	$rsIBlockElement = CIBlockElement::GetList(array(), array("IBLOCK_ID" => $arParams["NEWS_IBLOCK_ID"], "ACTIVE"=>"Y"), false, false, array("ID", "NAME", "DATE_ACTIVE_FROM"));
@@ -43,9 +47,11 @@ if($arParams["CATALOG_IBLOCK_ID"] > 0 && $arParams["NEWS_IBLOCK_ID"] > 0)
 		$arResult["ITEMS"][] = $obj;
 	}
 	
-	echo "<pre>";print_r($arResult);echo "</pre>";
+	//echo "<pre>";print_r($count);echo "</pre>";
 	
-	//$this->SetResultCacheKeys(array());
-	//$this->IncludeComponentTemplate();
+	$this->SetResultCacheKeys(array());
+	$this->IncludeComponentTemplate();
+	
+	$APPLICATION->SetTitle(GetMessage("ITEMS_COUNT") . $count);
 }
 ?>

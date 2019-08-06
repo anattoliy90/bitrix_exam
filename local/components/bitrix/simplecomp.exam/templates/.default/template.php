@@ -1,30 +1,21 @@
-<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
-/** @var array $arParams */
-/** @var array $arResult */
-/** @global CMain $APPLICATION */
-/** @global CUser $USER */
-/** @global CDatabase $DB */
-/** @var CBitrixComponentTemplate $this */
-/** @var string $templateName */
-/** @var string $templateFile */
-/** @var string $templateFolder */
-/** @var string $componentPath */
-/** @var CBitrixComponent $component */
-$frame = $this->createFrame()->begin('');
-?>
-<div class="photo-random">
-	<?if(is_array($arResult["PICTURE"])):?>
-		<a href="<?=$arResult["DETAIL_PAGE_URL"]?>"><img
-				border="0"
-				src="<?=$arResult["PICTURE"]["SRC"]?>"
-				width="<?=$arResult["PICTURE"]["WIDTH"]?>"
-				height="<?=$arResult["PICTURE"]["HEIGHT"]?>"
-				alt="<?=$arResult["PICTURE"]["ALT"]?>"
-				title="<?=$arResult["PICTURE"]["TITLE"]?>"
-				/></a><br />
-	<?endif?>
-	<a href="<?=$arResult["DETAIL_PAGE_URL"]?>"><?=$arResult["NAME"]?></a>
-</div>
-<?
-$frame->end();
-?>
+<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
+
+<?if(!empty($arResult["ITEMS"])):?>
+	<ul>
+		<?foreach($arResult["ITEMS"] as $item):?>
+			<?
+			$sections = array_column($item["ITEMS"], "NAME");
+			$sections = implode(", ", $sections);
+			?>
+		
+			<li class="news-name"><?=$item["NAME"];?> - <?=$item["DATE_ACTIVE_FROM"];?> (<?=$sections;?>)</li>
+			<ul>
+				<?foreach($item["ITEMS"] as $section):?>
+					<?foreach($section["PRODUCTS"] as $product):?>
+						<li><?=$product["NAME"];?> - <?=$product["PROPERTY_PRICE_VALUE"];?> - <?=$product["PROPERTY_MATERIAL_VALUE"];?> - <?=$product["PROPERTY_ARTNUMBER_VALUE"];?></li>
+					<?endforeach;?>
+				<?endforeach;?>
+			</ul>
+		<?endforeach;?>
+	</ul>
+<?endif;?>

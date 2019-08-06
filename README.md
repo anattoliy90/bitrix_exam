@@ -7,4 +7,5 @@ https://academy.1c-bitrix.ru/training/course/5863/
 https://www.youtube.com/channel/UCZ3x8YCC2HFBKrUk3RrCn1Q/videos?view=0&sort=dd&shelf_id=0
 
 Todo:
+- cache
 - Ex2Demo1 - 3. [ex2-70] Разработать простой компонент «Каталог товаров»
