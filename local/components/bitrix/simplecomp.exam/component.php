@@ -7,7 +7,7 @@ if(!isset($arParams["CACHE_TIME"]))
 $arParams["CATALOG_IBLOCK_ID"] = (int) $arParams["CATALOG_IBLOCK_ID"];
 $arParams["NEWS_IBLOCK_ID"] = (int) $arParams["NEWS_IBLOCK_ID"];
 
-if($arParams["CATALOG_IBLOCK_ID"] > 0 && $arParams["NEWS_IBLOCK_ID"] > 0)
+if($arParams["CATALOG_IBLOCK_ID"] > 0 && $arParams["NEWS_IBLOCK_ID"] > 0 && $this->StartResultCache())
 {
 	if(!CModule::IncludeModule("iblock"))
 	{
@@ -17,7 +17,7 @@ if($arParams["CATALOG_IBLOCK_ID"] > 0 && $arParams["NEWS_IBLOCK_ID"] > 0)
 	}
 	
 	$arr_section = array();
-	$arResult["ITEMS"] = array();
+	$arResult = array();
 	$count = 0;
 	
 	
@@ -44,14 +44,12 @@ if($arParams["CATALOG_IBLOCK_ID"] > 0 && $arParams["NEWS_IBLOCK_ID"] > 0)
 			}
 		}
 		
-		$arResult["ITEMS"][] = $obj;
+		$arResult[] = $obj;
 	}
-	
-	//echo "<pre>";print_r($count);echo "</pre>";
 	
 	$this->SetResultCacheKeys(array());
 	$this->IncludeComponentTemplate();
-	
-	$APPLICATION->SetTitle(GetMessage("ITEMS_COUNT") . $count);
 }
+
+$APPLICATION->SetTitle(GetMessage("ITEMS_COUNT") . $count);
 ?>
