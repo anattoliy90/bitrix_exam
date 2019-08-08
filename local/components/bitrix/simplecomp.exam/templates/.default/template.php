@@ -3,7 +3,7 @@
 <?if(!empty($arResult)):?>
 	<b><?=GetMessage("CATALOG");?></b>
 	<ul>
-		<?foreach($arResult as $item):?>
+		<?foreach($arResult["ITEMS"] as $item):?>
 			<?
 			$sections = array_column($item["ITEMS"], "NAME");
 			$sections = implode(", ", $sections);

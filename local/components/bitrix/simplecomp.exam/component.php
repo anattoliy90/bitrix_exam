@@ -17,8 +17,9 @@ if($arParams["CATALOG_IBLOCK_ID"] > 0 && $arParams["NEWS_IBLOCK_ID"] > 0 && $thi
 	}
 	
 	$arr_section = array();
-	$arResult = array();
-	$count = 0;
+	$arResult["ITEMS"] = array();
+	$arResult["COUNT"] = 0;
+	$arr_prices = array();
 	
 	
 	$rsSect = CIBlockSection::GetList(array(), array("IBLOCK_ID" => $arParams["CATALOG_IBLOCK_ID"], "ACTIVE"=>"Y", "!".$arParams["USER_PROPERTY"] => false), false, array("ID", "NAME", $arParams["USER_PROPERTY"]), false);
@@ -29,27 +30,40 @@ if($arParams["CATALOG_IBLOCK_ID"] > 0 && $arParams["NEWS_IBLOCK_ID"] > 0 && $thi
 	
 	$res = CIBlockElement::GetList(array(), array("IBLOCK_ID" => $arParams["CATALOG_IBLOCK_ID"], "ACTIVE"=>"Y", "SECTION_ID" => array_keys($arr_section)), false, false, array("ID", "NAME", "PROPERTY_MATERIAL", "PROPERTY_ARTNUMBER", "PROPERTY_PRICE", "IBLOCK_SECTION_ID"));
 	while($ob = $res->GetNext())
-	{
+	{		
 		$arr_section[$ob["IBLOCK_SECTION_ID"]]["PRODUCTS"][] = $ob;
 		
-		$count++;
+		$arResult["COUNT"]++;
+		
+		$arr_prices[] = $ob["PROPERTY_PRICE_VALUE"];
 	}
+	
+	$arResult["MIN_PRICE"] = min($arr_prices);
+	$arResult["MAX_PRICE"] = max($arr_prices);
 
 	$rsIBlockElement = CIBlockElement::GetList(array(), array("IBLOCK_ID" => $arParams["NEWS_IBLOCK_ID"], "ACTIVE"=>"Y"), false, false, array("ID", "NAME", "DATE_ACTIVE_FROM"));
 	while($obj = $rsIBlockElement->GetNext())
 	{							
 		foreach($arr_section as $section) {
-			if(in_array($obj["ID"], $section["UF_NEWS_LINK"])) {
+			if(in_array($obj["ID"], $section[$arParams["USER_PROPERTY"]])) {
 				$obj["ITEMS"][] = $section;
 			}
 		}
 		
-		$arResult[] = $obj;
+		$arResult["ITEMS"][] = $obj;
 	}
 	
-	$this->SetResultCacheKeys(array());
+	$this->SetResultCacheKeys(array(
+		"COUNT",
+		"MIN_PRICE",
+		"MAX_PRICE",
+	));
+	
 	$this->IncludeComponentTemplate();
 }
 
-$APPLICATION->SetTitle(GetMessage("ITEMS_COUNT") . $count);
+$APPLICATION->SetTitle(GetMessage("ITEMS_COUNT") . $arResult["COUNT"]);
+
+$APPLICATION->AddViewContent('catalog_min_price', $arResult["MIN_PRICE"]);
+$APPLICATION->AddViewContent('catalog_max_price', $arResult["MAX_PRICE"]);
 ?>
