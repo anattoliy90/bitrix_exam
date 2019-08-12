@@ -17,6 +17,7 @@ if($arParams["CATALOG_IBLOCK_ID"] > 0 && $arParams["NEWS_IBLOCK_ID"] > 0 && $thi
 	}
 	
 	$arr_section = array();
+	$arr_items = array();
 	$arResult["ITEMS"] = array();
 	$arResult["COUNT"] = 0;
 	$arr_prices = array();
@@ -33,10 +34,12 @@ if($arParams["CATALOG_IBLOCK_ID"] > 0 && $arParams["NEWS_IBLOCK_ID"] > 0 && $thi
 	{		
 		$arr_section[$ob["IBLOCK_SECTION_ID"]]["PRODUCTS"][] = $ob;
 		
-		$arResult["COUNT"]++;
+		$arr_items[] = $ob["ID"];
 		
 		$arr_prices[] = $ob["PROPERTY_PRICE_VALUE"];
 	}
+	
+	$arResult["COUNT"] = count($arr_items);
 	
 	$arResult["MIN_PRICE"] = min($arr_prices);
 	$arResult["MAX_PRICE"] = max($arr_prices);
