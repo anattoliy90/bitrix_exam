@@ -32,7 +32,11 @@ $arComponentVariables = array(
 	"SECTION_CODE",
 	"ELEMENT_ID",
 	"ELEMENT_CODE",
+	"PARAM1",
+	"PARAM2",
 );
+
+echo "<pre>";print_r($arResult);echo "</pre>";
 
 if($arParams["SEF_MODE"] == "Y")
 {
@@ -59,7 +63,7 @@ if($arParams["SEF_MODE"] == "Y")
 		$componentPage = "sections_top";
 		$b404 = true;
 	}
-
+	
 	if(
 		$componentPage == "section"
 		&& isset($arVariables["SECTION_ID"])

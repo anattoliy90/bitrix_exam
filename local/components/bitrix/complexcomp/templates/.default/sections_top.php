@@ -12,6 +12,9 @@
 /** @var CBitrixComponent $component */
 $this->setFrameMode(true);
 ?>
+
+section_top
+
 <?
 //ссылка на страницу станицу exampage 
 //$url = ...

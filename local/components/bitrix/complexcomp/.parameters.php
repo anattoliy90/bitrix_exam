@@ -71,8 +71,8 @@ $arComponentParameters = array(
 			"ELEMENT_ID" => Array("NAME" => GetMessage("ELEMENT_ID_DESC")),
 				
 			//Добавили переменные
-			//"PARAM1" => Array("NAME" => GetMessage("PARAM1")),
-			//"PARAM2" => Array("NAME" => GetMessage("PARAM2")),
+			"PARAM1" => Array("NAME" => GetMessage("PARAM1")),
+			"PARAM2" => Array("NAME" => GetMessage("PARAM2")),
 			//"PARAM3" => Array("NAME" => GetMessage("PARAM3")),
 			//"PARAM4" => Array("NAME" => GetMessage("PARAM4")),
 				

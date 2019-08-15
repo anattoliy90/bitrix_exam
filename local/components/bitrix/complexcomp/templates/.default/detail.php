@@ -12,6 +12,9 @@
 /** @var CBitrixComponent $component */
 $this->setFrameMode(true);
 ?>
+
+detail
+
 <?$ElementID = $APPLICATION->IncludeComponent(
 	"bitrix:photo.detail",
 	"",

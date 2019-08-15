@@ -1,16 +1,22 @@
 <?
 $arUrlRewrite = array(
 	array(
-		"CONDITION" => "#^/services/#",
+		"CONDITION" => "#^/ex2/complexcomponent/#",
 		"RULE" => "",
-		"ID" => "bitrix:catalog",
-		"PATH" => "/services/index.php",
+		"ID" => "bitrix:complexcomp",
+		"PATH" => "/ex2/complexcomponent/index.php",
 	),
 	array(
 		"CONDITION" => "#^/products/#",
 		"RULE" => "",
 		"ID" => "bitrix:catalog",
 		"PATH" => "/products/index.php",
+	),
+	array(
+		"CONDITION" => "#^/services/#",
+		"RULE" => "",
+		"ID" => "bitrix:catalog",
+		"PATH" => "/services/index.php",
 	),
 	array(
 		"CONDITION" => "#^/news/#",
