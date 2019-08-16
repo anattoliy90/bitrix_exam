@@ -2,7 +2,7 @@
 $APPLICATION->SetTitle("");?>
 
 <?$APPLICATION->IncludeComponent(
-	"bitrix:complexcomp",
+	"molotok:complexcomp",
 	"",
 	Array(
 		"COMPONENT_TEMPLATE" => ".default",
