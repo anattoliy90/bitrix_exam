@@ -1,7 +1,5 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("");?>
-
-<?$APPLICATION->IncludeComponent(
+$APPLICATION->SetTitle("");?><?$APPLICATION->IncludeComponent(
 	"molotok:complexcomp",
 	"",
 	Array(
@@ -58,11 +56,13 @@ $APPLICATION->SetTitle("");?>
 		"SHOW_404" => "N",
 		"MESSAGE_404" => "",
 		"SEF_FOLDER" => "/ex2/complexcomponent/",
-		"SEF_URL_TEMPLATES" => Array("sections_top"=>"","section"=>"#SECTION_ID#/","detail"=>"#SECTION_ID#/#ELEMENT_ID#/"),
-		"VARIABLE_ALIASES" => Array("sections_top"=>Array(),"section"=>Array(),"detail"=>Array(),),
+		"VARIABLE_ALIASES" => Array("sections_top"=>Array(),"section"=>Array(),"detail"=>Array(),"exampage"=>Array(),),
+		"SEF_URL_TEMPLATES" => Array("sections_top"=>"","section"=>"#SECTION_ID#/","detail"=>"#SECTION_ID#/#ELEMENT_ID#/","exampage"=>"exam/new/#PARAM1#/"),
 		"VARIABLE_ALIASES" => Array(
+			"sections_top" => Array(),
+			"section" => Array(),
+			"detail" => Array(),
+			"exampage" => Array("PARAM2" => "PARAM2"),
 		)
 	)
-);?>
-
-<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+);?><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

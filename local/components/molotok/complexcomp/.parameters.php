@@ -74,9 +74,7 @@ $arComponentParameters = array(
 			"PARAM1" => Array("NAME" => GetMessage("PARAM1")),
 			"PARAM2" => Array("NAME" => GetMessage("PARAM2")),
 			//"PARAM3" => Array("NAME" => GetMessage("PARAM3")),
-			//"PARAM4" => Array("NAME" => GetMessage("PARAM4")),
-				
-				
+			//"PARAM4" => Array("NAME" => GetMessage("PARAM4")),		
 		),
 		"SEF_MODE" => Array(
 			"sections_top" => array(
@@ -96,13 +94,11 @@ $arComponentParameters = array(
 			),
 				
 			//добавили новую страницу
-			//"exampage" => array(
-					//"NAME" => GetMessage("EXAM_PAGE"),
-					//DEFAULT
-					//VARIABLES
-			//),
-				
-				
+			"exampage" => array(
+				"NAME" => GetMessage("EXAM_PAGE"),
+				"DEFAULT" => "exam/new/#PARAM1#/",
+				"VARIABLES" => array("PARAM1", "PARAM2"),
+			),
 		),
 		"IBLOCK_TYPE" => array(
 			"PARENT" => "BASE",

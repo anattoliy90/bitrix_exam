@@ -3,7 +3,7 @@ $arUrlRewrite = array(
 	array(
 		"CONDITION" => "#^/ex2/complexcomponent/#",
 		"RULE" => "",
-		"ID" => "bitrix:complexcomp",
+		"ID" => "molotok:complexcomp",
 		"PATH" => "/ex2/complexcomponent/index.php",
 	),
 	array(

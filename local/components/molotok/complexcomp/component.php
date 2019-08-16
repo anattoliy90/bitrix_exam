@@ -23,7 +23,9 @@ $arDefaultUrlTemplates404 = array(
 	"detail" => "#SECTION_ID#/#ELEMENT_ID#/",
 );
 
-$arDefaultVariableAliases404 = array();
+$arDefaultVariableAliases404 = array(
+	"exampage" => array("PARAM2" => "PARAM2"),
+);
 
 $arDefaultVariableAliases = array();
 
@@ -32,11 +34,7 @@ $arComponentVariables = array(
 	"SECTION_CODE",
 	"ELEMENT_ID",
 	"ELEMENT_CODE",
-	"PARAM1",
-	"PARAM2",
 );
-
-echo "<pre>";print_r($arResult);echo "</pre>";
 
 if($arParams["SEF_MODE"] == "Y")
 {
@@ -44,6 +42,7 @@ if($arParams["SEF_MODE"] == "Y")
 
 	$arUrlTemplates = CComponentEngine::MakeComponentUrlTemplates($arDefaultUrlTemplates404, $arParams["SEF_URL_TEMPLATES"]);
 	$arVariableAliases = CComponentEngine::MakeComponentVariableAliases($arDefaultVariableAliases404, $arParams["VARIABLE_ALIASES"]);
+	
 
 	$engine = new CComponentEngine($this);
 	if (CModule::IncludeModule('iblock'))
@@ -99,6 +98,8 @@ if($arParams["SEF_MODE"] == "Y")
 		"VARIABLES" => $arVariables,
 		"ALIASES" => $arVariableAliases,
 	);
+	
+	echo "<pre>";print_r($arResult);echo "</pre>";
 }
 else
 {
