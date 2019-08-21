@@ -1,11 +1,11 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("");?><?$APPLICATION->IncludeComponent(
-	"molotok:complexcomp",
-	"",
-	Array(
+	"molotok:complexcomp.exam-materials", 
+	".default", 
+	array(
 		"COMPONENT_TEMPLATE" => ".default",
 		"IBLOCK_TYPE" => "news",
-		"IBLOCK_ID" => "1",
+		"IBLOCK_ID" => "",
 		"SEF_MODE" => "Y",
 		"AJAX_MODE" => "N",
 		"AJAX_OPTION_JUMP" => "N",
@@ -29,20 +29,38 @@ $APPLICATION->SetTitle("");?><?$APPLICATION->IncludeComponent(
 		"SECTION_SORT_ORDER" => "asc",
 		"TOP_ELEMENT_SORT_FIELD" => "sort",
 		"TOP_ELEMENT_SORT_ORDER" => "asc",
-		"TOP_FIELD_CODE" => array("",""),
-		"TOP_PROPERTY_CODE" => array("",""),
+		"TOP_FIELD_CODE" => array(
+			0 => "",
+			1 => "",
+		),
+		"TOP_PROPERTY_CODE" => array(
+			0 => "",
+			1 => "",
+		),
 		"SECTION_PAGE_ELEMENT_COUNT" => "20",
 		"SECTION_LINE_ELEMENT_COUNT" => "3",
 		"ELEMENT_SORT_FIELD" => "sort",
 		"ELEMENT_SORT_ORDER" => "asc",
-		"LIST_FIELD_CODE" => array("",""),
-		"LIST_PROPERTY_CODE" => array("",""),
+		"LIST_FIELD_CODE" => array(
+			0 => "",
+			1 => "",
+		),
+		"LIST_PROPERTY_CODE" => array(
+			0 => "",
+			1 => "",
+		),
 		"LIST_BROWSER_TITLE" => "-",
 		"META_KEYWORDS" => "-",
 		"META_DESCRIPTION" => "-",
 		"BROWSER_TITLE" => "-",
-		"DETAIL_FIELD_CODE" => array("",""),
-		"DETAIL_PROPERTY_CODE" => array("",""),
+		"DETAIL_FIELD_CODE" => array(
+			0 => "",
+			1 => "",
+		),
+		"DETAIL_PROPERTY_CODE" => array(
+			0 => "",
+			1 => "",
+		),
 		"PAGER_TEMPLATE" => ".default",
 		"DISPLAY_TOP_PAGER" => "N",
 		"DISPLAY_BOTTOM_PAGER" => "Y",
@@ -56,13 +74,17 @@ $APPLICATION->SetTitle("");?><?$APPLICATION->IncludeComponent(
 		"SHOW_404" => "N",
 		"MESSAGE_404" => "",
 		"SEF_FOLDER" => "/ex2/complexcomponent/",
-		"VARIABLE_ALIASES" => Array("sections_top"=>Array(),"section"=>Array(),"detail"=>Array(),"exampage"=>Array(),),
-		"SEF_URL_TEMPLATES" => Array("sections_top"=>"","section"=>"#SECTION_ID#/","detail"=>"#SECTION_ID#/#ELEMENT_ID#/","exampage"=>"exam/new/#PARAM1#/"),
-		"VARIABLE_ALIASES" => Array(
-			"sections_top" => Array(),
-			"section" => Array(),
-			"detail" => Array(),
-			"exampage" => Array("PARAM2" => "PARAM2"),
+		"SEF_URL_TEMPLATES" => array(
+			"sections_top" => "",
+			"section" => "#SECTION_ID#/",
+			"detail" => "#SECTION_ID#/#ELEMENT_ID#/",
+			"exampage" => "exam/new/#PARAM1#/?PARAM2=#PARAM2#",
+		),
+		"VARIABLE_ALIASES" => array(
+			"exampage" => array(
+				"PARAM2" => "PARAM2",
+			),
 		)
-	)
+	),
+	false
 );?><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
