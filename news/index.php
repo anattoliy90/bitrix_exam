@@ -2,9 +2,9 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Новости");
 ?><?$APPLICATION->IncludeComponent(
-	"bitrix:news", 
-	".default", 
-	array(
+	"bitrix:news",
+	"",
+	Array(
 		"IBLOCK_TYPE" => "news",
 		"IBLOCK_ID" => "1",
 		"NEWS_COUNT" => "5",
@@ -40,28 +40,16 @@ $APPLICATION->SetTitle("Новости");
 		"USE_PERMISSIONS" => "N",
 		"PREVIEW_TRUNCATE_LEN" => "",
 		"LIST_ACTIVE_DATE_FORMAT" => "d.m.Y",
-		"LIST_FIELD_CODE" => array(
-			0 => "",
-			1 => "",
-		),
-		"LIST_PROPERTY_CODE" => array(
-			0 => "",
-			1 => "",
-		),
+		"LIST_FIELD_CODE" => array("",""),
+		"LIST_PROPERTY_CODE" => array("",""),
 		"HIDE_LINK_WHEN_NO_DETAIL" => "Y",
 		"DISPLAY_NAME" => "Y",
 		"META_KEYWORDS" => "-",
 		"META_DESCRIPTION" => "-",
 		"BROWSER_TITLE" => "-",
 		"DETAIL_ACTIVE_DATE_FORMAT" => "d.m.Y",
-		"DETAIL_FIELD_CODE" => array(
-			0 => "",
-			1 => "",
-		),
-		"DETAIL_PROPERTY_CODE" => array(
-			0 => "",
-			1 => "",
-		),
+		"DETAIL_FIELD_CODE" => array("",""),
+		"DETAIL_PROPERTY_CODE" => array("",""),
 		"DETAIL_DISPLAY_TOP_PAGER" => "N",
 		"DETAIL_DISPLAY_BOTTOM_PAGER" => "Y",
 		"DETAIL_PAGER_TITLE" => "Страница",
@@ -89,13 +77,15 @@ $APPLICATION->SetTitle("Новости");
 		"PAGER_BASE_LINK_ENABLE" => "N",
 		"SHOW_404" => "N",
 		"MESSAGE_404" => "",
-		"SEF_URL_TEMPLATES" => array(
-			"news" => "",
-			"section" => "",
-			"detail" => "#ELEMENT_ID#/",
-			"rss" => "rss/",
-			"rss_section" => "#SECTION_ID#/rss/",
+		"SEF_URL_TEMPLATES" => Array("news"=>"","section"=>"","detail"=>"#ELEMENT_ID#/","rss"=>"rss/","rss_section"=>"#SECTION_ID#/rss/"),
+		"CANONICAL" => "5",
+		"VARIABLE_ALIASES" => Array("news"=>Array(),"section"=>Array(),"detail"=>Array(),"rss"=>Array(),"rss_section"=>Array(),),
+		"VARIABLE_ALIASES" => Array(
+			"news" => Array(),
+			"section" => Array(),
+			"detail" => Array(),
+			"rss" => Array(),
+			"rss_section" => Array(),
 		)
-	),
-	false
+	)
 );?><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
