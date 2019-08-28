@@ -13,5 +13,4 @@ https://dev.1c-bitrix.ru/community/forums/forum6/topic91539/
 https://academy.1c-bitrix.ru/training/course/5863/
 
 Todo:
-- Убрать вкладки Рабочий стол и Инфоблоки по событию onBuildGlobalMenu
-- Ex2Demo2 - 2. [ex2-95] Упростить меню в адмистративном разделе для контент-менеджера
+- Ex2Demo2 - 3. [ex2-97] Разработать простой компонент «Новости по интересам» 
