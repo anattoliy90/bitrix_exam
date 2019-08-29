@@ -2,6 +2,6 @@
 <p><b><?=GetMessage("SIMPLECOMP_EXAM2_CAT_TITLE")?></b></p>
 <pre>
 <?
-print_r($arResult);
+//print_r($arResult);
 ?>
 </pre>

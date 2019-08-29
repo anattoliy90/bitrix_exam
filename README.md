@@ -13,5 +13,4 @@ https://dev.1c-bitrix.ru/community/forums/forum6/topic91539/
 https://academy.1c-bitrix.ru/training/course/5863/
 
 Todo:
-- Компонент должен выводить список авторов, рядом с автором – список его новостей.
 - Ex2Demo2 - 3. [ex2-97] Разработать простой компонент «Новости по интересам» 
