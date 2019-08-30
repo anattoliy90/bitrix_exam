@@ -10,13 +10,14 @@ if(!Loader::includeModule("iblock"))
 	return;
 }
 
-if(intval($arParams["NEWS_IBLOCK_ID"]) > 0) {
+if(intval($arParams["NEWS_IBLOCK_ID"]) > 0) {	
 	//iblock elements
 	$arSelectElems = array (
 		"ID",
 		"IBLOCK_ID",
 		"NAME",
 		"ACTIVE_FROM",
+		"PROPERTY_" . $arParams["AUTHOR"]
 	);
 	$arFilterElems = array (
 		"IBLOCK_ID" => $arParams["NEWS_IBLOCK_ID"],
@@ -30,7 +31,7 @@ if(intval($arParams["NEWS_IBLOCK_ID"]) > 0) {
 	$rsElements = CIBlockElement::GetList($arSortElems, $arFilterElems, false, false, $arSelectElems);
 	while($arElement = $rsElements->GetNext())
 	{
-		$arResult["ELEMENTS"][] = $arElement;
+		$arResult["ELEMENTS"][$arElement["PROPERTY_AUTHOR_VALUE"]][] = $arElement;
 	}
 	
 	//iblock sections
@@ -58,17 +59,24 @@ if(intval($arParams["NEWS_IBLOCK_ID"]) > 0) {
 	$arOrderUser = array("id");
 	$sortOrder = "asc";
 	$arFilterUser = array(
-		"ACTIVE" => "Y"
+		"ACTIVE" => "Y",
+		"!ID" => $USER->GetID(),
 	);
 	
 	$arResult["USERS"] = array();
 	$rsUsers = CUser::GetList($arOrderUser, $sortOrder, $arFilterUser); // выбираем пользователей
 	while($arUser = $rsUsers->GetNext())
 	{
-		$arResult["USERS"][] = $arUser;
-	}	
+		foreach($arResult["ELEMENTS"] as $author_id => $item)
+		{
+			if($author_id == $arUser["ID"]) {
+				$arResult["USERS"][$arUser["LOGIN"]] = $item;
+			}
+		}
+	}
 	
-	//echo "<pre>";print_r($arResult["USERS"]);echo "</pre>";
+	echo "<pre>";print_r($arResult["USERS"]);echo "</pre>";
+	
 }
 $this->includeComponentTemplate();	
 ?>
