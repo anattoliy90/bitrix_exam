@@ -10,7 +10,7 @@ if(!Loader::includeModule("iblock"))
 	return;
 }
 
-if(intval($arParams["NEWS_IBLOCK_ID"]) > 0) {	
+if($USER->IsAuthorized() && intval($arParams["NEWS_IBLOCK_ID"]) > 0) {	
 	//iblock elements
 	$arSelectElems = array (
 		"ID",
@@ -21,39 +21,37 @@ if(intval($arParams["NEWS_IBLOCK_ID"]) > 0) {
 	);
 	$arFilterElems = array (
 		"IBLOCK_ID" => $arParams["NEWS_IBLOCK_ID"],
-		"ACTIVE" => "Y"
+		"ACTIVE" => "Y",
 	);
 	$arSortElems = array (
 			"NAME" => "ASC"
 	);
 	
+	$cur_user_news = array();
 	$arResult["ELEMENTS"] = array();
 	$rsElements = CIBlockElement::GetList($arSortElems, $arFilterElems, false, false, $arSelectElems);
 	while($arElement = $rsElements->GetNext())
-	{
-		$arResult["ELEMENTS"][$arElement["PROPERTY_AUTHOR_VALUE"]][] = $arElement;
+	{		
+		if($arElement["PROPERTY_" . $arParams["AUTHOR"] . "_VALUE"] == $USER->GetID()) {
+			$cur_user_news[] = $arElement["ID"];
+		}
+		
+		$arResult["ELEMENTS"][$arElement["PROPERTY_" . $arParams["AUTHOR"] . "_VALUE"]][] = $arElement;
 	}
 	
-	//iblock sections
-	$arSelectSect = array (
-			"ID",
-			"IBLOCK_ID",
-			"NAME",
-	);
-	$arFilterSect = array (
-			"IBLOCK_ID" => $arParams["NEWS_IBLOCK_ID"],
-			"ACTIVE" => "Y"
-	);
-	$arSortSect = array (
-			"NAME" => "ASC"
-	);
-	
-	$arResult["SECTIONS"] = array();
-	$rsSections = CIBlockSection::GetList($arSortSect, $arFilterSect, false, $arSelectSect, false);
-	while($arSection = $rsSections->GetNext())
+	foreach($arResult["ELEMENTS"] as $author_id => $items)
 	{
-		$arResult["SECTIONS"][] = $arSection;
+		foreach($items as $key => $item)
+		{			
+			if(in_array($item["ID"], $cur_user_news)) {
+				unset($arResult["ELEMENTS"][$author_id][$key]);
+			}
+		}
 	}
+	
+	// current user
+	$rsUser = CUser::GetByID($USER->GetID());
+	$arCurUser = $rsUser->Fetch();
 		
 	// user
 	$arOrderUser = array("id");
@@ -61,22 +59,25 @@ if(intval($arParams["NEWS_IBLOCK_ID"]) > 0) {
 	$arFilterUser = array(
 		"ACTIVE" => "Y",
 		"!ID" => $USER->GetID(),
+		$arParams["AUTHOR_TYPE"] => $arCurUser["UF_AUTHOR_TYPE"],
 	);
 	
 	$arResult["USERS"] = array();
 	$rsUsers = CUser::GetList($arOrderUser, $sortOrder, $arFilterUser); // выбираем пользователей
 	while($arUser = $rsUsers->GetNext())
-	{
+	{		
 		foreach($arResult["ELEMENTS"] as $author_id => $item)
 		{
 			if($author_id == $arUser["ID"]) {
-				$arResult["USERS"][$arUser["LOGIN"]] = $item;
+				$arUser["ITEMS"] = $item;
 			}
 		}
+		
+		$arResult["USERS"][] = $arUser;
 	}
 	
-	echo "<pre>";print_r($arResult["USERS"]);echo "</pre>";
-	
+	unset($arResult["ELEMENTS"]);
 }
+
 $this->includeComponentTemplate();	
 ?>
