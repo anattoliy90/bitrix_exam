@@ -6,11 +6,38 @@ use Bitrix\Main\Loader,
 
 if(!Loader::includeModule("iblock"))
 {
+	$this->AbortResultCache();
 	ShowError(GetMessage("SIMPLECOMP_EXAM2_IBLOCK_MODULE_NONE"));
 	return;
 }
 
-if($USER->IsAuthorized() && intval($arParams["NEWS_IBLOCK_ID"]) > 0) {	
+if(!isset($arParams["CACHE_TIME"]))
+	$arParams["CACHE_TIME"] = 3600000;
+
+if($USER->IsAuthorized() && intval($arParams["NEWS_IBLOCK_ID"]) > 0 && $this->StartResultCache(false, $USER->GetID())) {
+		// current user
+	$rsUser = CUser::GetByID($USER->GetID());
+	$arCurUser = $rsUser->Fetch();
+		
+	// user
+	$arOrderUser = array("id");
+	$sortOrder = "asc";
+	$arFilterUser = array(
+		"ACTIVE" => "Y",
+		$arParams["AUTHOR_TYPE"] => $arCurUser["UF_AUTHOR_TYPE"],
+	);
+	
+	$arResult["USERS"] = array();
+	$users_ids = array();
+	
+	$rsUsers = CUser::GetList($arOrderUser, $sortOrder, $arFilterUser); // выбираем пользователей
+	while($arUser = $rsUsers->GetNext())
+	{
+		$arResult["USERS"][] = $arUser;
+		
+		$users_ids[] = $arUser["ID"];
+	}
+	
 	//iblock elements
 	$arSelectElems = array (
 		"ID",
@@ -22,13 +49,16 @@ if($USER->IsAuthorized() && intval($arParams["NEWS_IBLOCK_ID"]) > 0) {
 	$arFilterElems = array (
 		"IBLOCK_ID" => $arParams["NEWS_IBLOCK_ID"],
 		"ACTIVE" => "Y",
+		"PROPERTY_" . $arParams["AUTHOR"] => $users_ids,
 	);
 	$arSortElems = array (
-			"NAME" => "ASC"
+		"NAME" => "ASC"
 	);
 	
 	$cur_user_news = array();
 	$arResult["ELEMENTS"] = array();
+	$arResult["COUNT"] = 0;
+	
 	$rsElements = CIBlockElement::GetList($arSortElems, $arFilterElems, false, false, $arSelectElems);
 	while($arElement = $rsElements->GetNext())
 	{		
@@ -36,48 +66,26 @@ if($USER->IsAuthorized() && intval($arParams["NEWS_IBLOCK_ID"]) > 0) {
 			$cur_user_news[] = $arElement["ID"];
 		}
 		
-		$arResult["ELEMENTS"][$arElement["PROPERTY_" . $arParams["AUTHOR"] . "_VALUE"]][] = $arElement;
+		$arResult["ELEMENTS"][] = $arElement;
 	}
 	
-	foreach($arResult["ELEMENTS"] as $author_id => $items)
-	{
-		foreach($items as $key => $item)
-		{			
-			if(in_array($item["ID"], $cur_user_news)) {
-				unset($arResult["ELEMENTS"][$author_id][$key]);
-			}
-		}
-	}
-	
-	// current user
-	$rsUser = CUser::GetByID($USER->GetID());
-	$arCurUser = $rsUser->Fetch();
-		
-	// user
-	$arOrderUser = array("id");
-	$sortOrder = "asc";
-	$arFilterUser = array(
-		"ACTIVE" => "Y",
-		"!ID" => $USER->GetID(),
-		$arParams["AUTHOR_TYPE"] => $arCurUser["UF_AUTHOR_TYPE"],
-	);
-	
-	$arResult["USERS"] = array();
-	$rsUsers = CUser::GetList($arOrderUser, $sortOrder, $arFilterUser); // выбираем пользователей
-	while($arUser = $rsUsers->GetNext())
+	foreach($arResult["ELEMENTS"] as $key => $item)
 	{		
-		foreach($arResult["ELEMENTS"] as $author_id => $item)
-		{
-			if($author_id == $arUser["ID"]) {
-				$arUser["ITEMS"] = $item;
-			}
+		if(in_array($item["ID"], $cur_user_news)) {
+			unset($arResult["ELEMENTS"][$key]);
 		}
-		
-		$arResult["USERS"][] = $arUser;
 	}
 	
-	unset($arResult["ELEMENTS"]);
+	foreach($arResult["USERS"] as $key => $user)
+	{
+		if($user["ID"] == $USER->GetID()) {
+			unset($arResult["USERS"][$key]);
+		}
+	}
+	
+	$arResult["COUNT"] = count($arResult["ELEMENTS"]);
+	
+	$this->includeComponentTemplate();
 }
 
-$this->includeComponentTemplate();	
-?>
+$APPLICATION->SetTitle("Новостей [" . $arResult["COUNT"] . "]");

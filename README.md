@@ -13,4 +13,4 @@ https://dev.1c-bitrix.ru/community/forums/forum6/topic91539/
 https://academy.1c-bitrix.ru/training/course/5863/
 
 Todo:
-- Ex2Demo2 - 3. [ex2-97] Разработать простой компонент «Новости по интересам» 
+- Ex2Demo2 - 4. [ex2-100] Добавить пункт «ИБ в админке» в выпадающем меню компонента.
