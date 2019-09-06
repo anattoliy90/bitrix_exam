@@ -15,7 +15,7 @@ if(!isset($arParams["CACHE_TIME"]))
 	$arParams["CACHE_TIME"] = 3600000;
 
 if($USER->IsAuthorized() && intval($arParams["NEWS_IBLOCK_ID"]) > 0 && $this->StartResultCache(false, $USER->GetID())) {
-		// current user
+	// current user
 	$rsUser = CUser::GetByID($USER->GetID());
 	$arCurUser = $rsUser->Fetch();
 		
@@ -86,6 +86,19 @@ if($USER->IsAuthorized() && intval($arParams["NEWS_IBLOCK_ID"]) > 0 && $this->St
 	$arResult["COUNT"] = count($arResult["ELEMENTS"]);
 	
 	$this->includeComponentTemplate();
+}
+
+if ($APPLICATION->GetShowIncludeAreas()) {
+	$this->AddIncludeAreaIcons(
+		Array(
+			Array(
+				"ID" => "CATALOG_IBLOCK_BUTTON",
+				"TITLE" => "ИБ в админке",
+				"URL" => "/bitrix/admin/iblock_element_admin.php?IBLOCK_ID=" . $arParams["NEWS_IBLOCK_ID"] . "&type=news&lang=ru",
+				"IN_PARAMS_MENU" => true,
+			)
+		)
+	);
 }
 
 $APPLICATION->SetTitle("Новостей [" . $arResult["COUNT"] . "]");
