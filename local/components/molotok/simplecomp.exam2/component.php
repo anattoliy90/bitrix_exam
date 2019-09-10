@@ -83,7 +83,7 @@ if($USER->IsAuthorized() && intval($arParams["NEWS_IBLOCK_ID"]) > 0 && $this->St
 		}
 	}
 	
-	$arResult["COUNT"] = count($arResult["ELEMENTS"]);
+	$arResult["COUNT"] = count(array_unique(array_column($arResult["ELEMENTS"], "ID")));
 	
 	$this->includeComponentTemplate();
 }
