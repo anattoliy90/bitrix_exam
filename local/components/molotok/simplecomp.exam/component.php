@@ -67,6 +67,5 @@ if($arParams["CATALOG_IBLOCK_ID"] > 0 && $arParams["NEWS_IBLOCK_ID"] > 0 && $thi
 
 $APPLICATION->SetTitle(GetMessage("ITEMS_COUNT") . $arResult["COUNT"]);
 
-$APPLICATION->AddViewContent('catalog_min_price', $arResult["MIN_PRICE"]);
-$APPLICATION->AddViewContent('catalog_max_price', $arResult["MAX_PRICE"]);
-?>
+$APPLICATION->AddViewContent('catalog_min_price', GetMessage('MIN_PRICE') . " " . $arResult["MIN_PRICE"]);
+$APPLICATION->AddViewContent('catalog_max_price', GetMessage('MAX_PRICE') . " " . $arResult["MAX_PRICE"]);

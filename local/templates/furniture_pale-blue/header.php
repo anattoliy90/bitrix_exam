@@ -139,11 +139,11 @@ $APPLICATION->IncludeComponent("bitrix:search.form", "flat", Array(
 				</div>
 				
 				<div style="color:red; margin: 34px 15px 35px 15px">
-					<?=GetMessage('MIN_PRICE')?> <?$APPLICATION->ShowViewContent('catalog_min_price');?>
+					<?$APPLICATION->ShowViewContent('catalog_min_price');?>
 				</div>
 				
 				<div style="color:red; margin: 34px 15px 35px 15px">
-					<?=GetMessage('MAX_PRICE')?> <?$APPLICATION->ShowViewContent('catalog_max_price');?>
+					<?$APPLICATION->ShowViewContent('catalog_max_price');?>
 				</div>
 
 				<div class="information-block">
