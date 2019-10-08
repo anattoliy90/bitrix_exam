@@ -29,5 +29,12 @@ $aMenuLinks = Array(
 		Array(), 
 		"" 
 	),
+        Array(
+		"Второй сайт", 
+		"site2/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
 );
 ?>

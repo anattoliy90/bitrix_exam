@@ -13,4 +13,4 @@ https://dev.1c-bitrix.ru/community/forums/forum6/topic91539/
 https://academy.1c-bitrix.ru/training/course/5863/
 
 Todo:
-- Ex2Demo2 - 5. [ex2-102] Добавить англоязычную версию сайта (один инфоблок).
+- Ex2Demo2 - 5. В шаблоне второго сайта отобразить редактируемую область со слоганом, файл из материалов /ex2-102-materials/site/motto.php
