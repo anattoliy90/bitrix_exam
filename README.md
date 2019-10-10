@@ -13,4 +13,4 @@ https://dev.1c-bitrix.ru/community/forums/forum6/topic91539/
 https://academy.1c-bitrix.ru/training/course/5863/
 
 Todo:
-- Ex2Demo2 - 5. В шаблонах сайтов добавить переключатель языков (сайтов)
+- Ex2AllType - [ex2-34] Установить значение тега meta «specialdate» в компоненте news.list
