@@ -3,6 +3,7 @@ IncludeModuleLangFile(__FILE__);
 
 AddEventHandler("main", "OnBeforeEventAdd", array("MyClass", "OnBeforeEventAddHandler"));
 AddEventHandler("main", "OnBuildGlobalMenu", "MyOnBuildGlobalMenu");
+AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", Array("MyClass", "OnBeforeIBlockElementUpdateHandler"));
 
 class MyClass
 {
@@ -26,6 +27,18 @@ class MyClass
             ));
         }
 	}
+	
+    function OnBeforeIBlockElementUpdateHandler(&$arFields)
+    {
+		$res = CIBlockElement::GetList(array(), array("IBLOCK_ID" => $arFields["IBLOCK_ID"], "ID" => $arFields["ID"]), false, false, array("ID", "SHOW_COUNTER"));
+		if($ob = $res->GetNext()) {
+			if($arFields["ACTIVE"] == "N" && $ob["SHOW_COUNTER"] > 2) {
+				global $APPLICATION;
+				$APPLICATION->throwException(GetMessage("NOT_AVAIL_ELEMENT") . $ob["SHOW_COUNTER"] . GetMessage("ELEMENT_VIEWS"));
+				return false;
+			}
+		}
+    }
 }
 
 function MyOnBuildGlobalMenu(&$aGlobalMenu, &$aModuleMenu)

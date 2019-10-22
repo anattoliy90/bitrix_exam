@@ -13,4 +13,4 @@ https://dev.1c-bitrix.ru/community/forums/forum6/topic91539/
 https://academy.1c-bitrix.ru/training/course/5863/
 
 Todo:
-- Ex2AllType - [ex2-50] Проверка при деактивации товара
+- Ex2AllType - [ex2-93] Записывать в Журнал событий открытие не существующих страниц сайта
