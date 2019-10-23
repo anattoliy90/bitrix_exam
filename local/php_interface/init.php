@@ -4,6 +4,14 @@ IncludeModuleLangFile(__FILE__);
 AddEventHandler("main", "OnBeforeEventAdd", array("MyClass", "OnBeforeEventAddHandler"));
 AddEventHandler("main", "OnBuildGlobalMenu", "MyOnBuildGlobalMenu");
 AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", Array("MyClass", "OnBeforeIBlockElementUpdateHandler"));
+AddEventHandler("main", "OnEpilog", "controller_404");
+
+function controller_404()
+{
+	if(defined("ERROR_404") && ERROR_404 == "Y") {
+		echo "ERROR_404 - " . ERROR_404;
+	}
+}
 
 class MyClass
 {
