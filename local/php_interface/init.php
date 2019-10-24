@@ -9,7 +9,12 @@ AddEventHandler("main", "OnEpilog", "controller_404");
 function controller_404()
 {
 	if(defined("ERROR_404") && ERROR_404 == "Y") {
-		echo "ERROR_404 - " . ERROR_404;
+		CEventLog::Add(array(
+			"SEVERITY" => "INFO",
+			"AUDIT_TYPE_ID" => "ERROR_404",
+			"MODULE_ID" => "main",
+			"DESCRIPTION" => $_SERVER["REQUEST_URI"],
+		));
 	}
 }
 
