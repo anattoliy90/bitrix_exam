@@ -13,4 +13,4 @@ https://dev.1c-bitrix.ru/community/forums/forum6/topic91539/
 https://academy.1c-bitrix.ru/training/course/5863/
 
 Todo:
-- Ex2AllType - [ex2-51] Изменение данных в письме
+- Ex2AllType - [ex2-95] Упростить меню в адмистративном разделе для контент-менеджера
