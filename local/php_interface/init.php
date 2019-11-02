@@ -59,7 +59,7 @@ function MyOnBuildGlobalMenu(&$aGlobalMenu, &$aModuleMenu)
 	global $USER;
 	$arGroups = CUser::GetUserGroup($USER->GetID());
 	
-	if(in_array(5, $arGroups)) {
+	if(in_array(5, $arGroups) && !$USER->IsAdmin()) {
 		unset($aGlobalMenu["global_menu_desktop"]);
 		
 		foreach($aModuleMenu as $key => $menu) {
