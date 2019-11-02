@@ -28,6 +28,21 @@ IncludeTemplateLangFile(__FILE__);
 
 	<meta property="specialdate" content="<?$APPLICATION->ShowProperty("specialdate")?>">
 	<title><?$APPLICATION->ShowTitle()?></title>
+	
+	<?
+	CModule::IncludeModule("iblock");
+	
+	$res = CIBlockElement::GetList(array(), array("IBLOCK_ID" => 5, "=NAME" => $_SERVER["REQUEST_URI"]), false, false, array("ID", "NAME", "PROPERTY_TITLE", "PROPERTY_DESCRIPTION"));
+	if($ob = $res->GetNext()) {
+		if(!empty($ob["PROPERTY_TITLE_VALUE"])) {
+			$APPLICATION->SetPageProperty("title", $ob["PROPERTY_TITLE_VALUE"]);
+		}
+		
+		if(!empty($ob["PROPERTY_DESCRIPTION_VALUE"])) {
+			$APPLICATION->SetPageProperty("description", $ob["PROPERTY_DESCRIPTION_VALUE"]);
+		}
+	}
+?>
 </head>
 <body>
 	<div id="page-wrapper">
