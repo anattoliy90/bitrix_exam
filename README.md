@@ -10,4 +10,4 @@ https://academy.1c-bitrix.ru/training/course/5863/
 - Главный модуль - по умолчанию
 
 Todo:
-- Ex2AllType - [ex2-94] Супер инструмент SEO специалиста
+- Ex2AllType - [ex2-70] Разработать простой компонент «Каталог товаров»
