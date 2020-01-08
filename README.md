@@ -11,3 +11,5 @@ https://academy.1c-bitrix.ru/training/course/5863/
 
 Todo:
 - Ex2AllType - [ex2-70] Разработать простой компонент «Каталог товаров»
+- Forum
+- All tickets on time
