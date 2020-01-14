@@ -5,10 +5,10 @@ $APPLICATION->IncludeComponent(
 	"",
 	Array(
 		"COMPONENT_TEMPLATE" => ".default",
-		"CATALOG_IBLOCK" => "1",
-		"CLASSIFIER_IBLOCK" => "2",
-		"DETAIL_URL_TEMPLATE" => "url",
-		"PROP_CODE" => "code",
+		"CATALOG_IBLOCK" => "2",
+		"CLASSIFIER_IBLOCK" => "5",
+		"DETAIL_URL_TEMPLATE" => "/products/#SECTION_ID#/#ELEMENT_ID#/",
+		"PROP_CODE" => "FIRM",
 		"CACHE_TYPE" => "A",
 		"CACHE_TIME" => "3600"
 	)
