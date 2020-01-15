@@ -85,6 +85,9 @@ if($USER->IsAuthorized() && intval($arParams["NEWS_IBLOCK_ID"]) > 0 && $this->St
 	
 	$arResult["COUNT"] = count(array_unique(array_column($arResult["ELEMENTS"], "ID")));
 	
+	$this->SetResultCacheKeys(array(
+		"COUNT"
+	));
 	$this->includeComponentTemplate();
 }
 
@@ -101,4 +104,4 @@ if ($APPLICATION->GetShowIncludeAreas()) {
 	);
 }
 
-$APPLICATION->SetTitle("Новостей [" . $arResult["COUNT"] . "]");
+$APPLICATION->SetTitle(GetMessage("NEWS_COUNT") . "[" . $arResult["COUNT"] . "]");
