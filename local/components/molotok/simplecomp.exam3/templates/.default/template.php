@@ -7,7 +7,7 @@
 			<ul>
 				<?foreach($items as $item):?>
 					<li>
-						<a href="#"><?=$item["NAME"];?> - <?=$item["PROPERTY_PRICE_VALUE"];?> - <?=$item["PROPERTY_MATERIAL_VALUE"];?> - <?=$item["PROPERTY_ARTNUMBER_VALUE"];?></a>
+						<?=$item["NAME"];?> - <?=$item["PROPERTY_PRICE_VALUE"];?> - <?=$item["PROPERTY_MATERIAL_VALUE"];?> - <?=$item["PROPERTY_ARTNUMBER_VALUE"];?> (<?=$item["DETAIL_PAGE_URL"];?>)
 					</li>
 				<?endforeach;?>
 			</ul>

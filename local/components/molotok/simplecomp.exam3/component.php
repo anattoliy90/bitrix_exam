@@ -18,9 +18,10 @@ if($this->StartResultCache(false, ($USER->GetGroups()))) {
 	$arr_count = array();
 	$arResult["COUNT"] = 0;
 	
-	$res = CIBlockElement::GetList(array(), array("IBLOCK_ID" => $arParams["CATALOG_IBLOCK"], "ACTIVE" => "Y", "CHECK_PERMISSIONS" => "Y"), false, false, array("ID", "NAME", "IBLOCK_SECTION_ID", "PROPERTY_PRICE", "PROPERTY_MATERIAL", "PROPERTY_ARTNUMBER", "PROPERTY_" . $arParams["PROP_CODE"]));
+	$res = CIBlockElement::GetList(array(), array("IBLOCK_ID" => $arParams["CATALOG_IBLOCK"], "ACTIVE" => "Y", "CHECK_PERMISSIONS" => "Y"), false, false, array("ID", "NAME", "IBLOCK_SECTION_ID", "PROPERTY_PRICE", "PROPERTY_MATERIAL", "PROPERTY_ARTNUMBER", "PROPERTY_" . $arParams["PROP_CODE"], "DETAIL_PAGE_URL"));	
+	$res->SetUrlTemplates($arParams["DETAIL_URL_TEMPLATE"]);
 	while($ob = $res->GetNext())
-	{
+	{		
 		if(!empty($ob["PROPERTY_FIRM_VALUE"])) {
 			$arr_items[$ob["PROPERTY_FIRM_VALUE"]][] = $ob;
 			
