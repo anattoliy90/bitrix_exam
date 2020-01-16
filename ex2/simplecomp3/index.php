@@ -7,7 +7,7 @@ $APPLICATION->IncludeComponent(
 		"COMPONENT_TEMPLATE" => ".default",
 		"CATALOG_IBLOCK" => "2",
 		"CLASSIFIER_IBLOCK" => "5",
-		"DETAIL_URL_TEMPLATE" => "/products/#SECTION_ID#/#ELEMENT_CODE#/",
+		"DETAIL_URL_TEMPLATE" => "catalog_exam/#SECTION_ID#/#ELEMENT_CODE#",
 		"PROP_CODE" => "FIRM",
 		"CACHE_TYPE" => "A",
 		"CACHE_TIME" => "3600"
