@@ -38,7 +38,17 @@ if($this->StartResultCache(false, ($USER->GetGroups()))) {
 	$res = CIBlockElement::GetList(array("NAME" => "ASC", "SORT" => "ASC"), $arrFilter, false, false, array("ID", "NAME", "IBLOCK_SECTION_ID", "PROPERTY_PRICE", "PROPERTY_MATERIAL", "PROPERTY_ARTNUMBER", "PROPERTY_" . $arParams["PROP_CODE"], "DETAIL_PAGE_URL"));	
 	$res->SetUrlTemplates($arParams["DETAIL_URL_TEMPLATE"]);
 	while($ob = $res->GetNext())
-	{		
+	{
+		$arButtons = CIBlock::GetPanelButtons(
+			$ob["IBLOCK_ID"],
+			$ob["ID"],
+			0,
+			array("SECTION_BUTTONS" => false, "SESSID" => false)
+		);
+		
+		$ob["EDIT_LINK"] = $arButtons["edit"]["edit_element"]["ACTION_URL"];
+		$ob["DELETE_LINK"] = $arButtons["edit"]["delete_element"]["ACTION_URL"];
+		
 		if(!empty($ob["PROPERTY_FIRM_VALUE"])) {
 			$arr_items[$ob["PROPERTY_FIRM_VALUE"]][] = $ob;
 			

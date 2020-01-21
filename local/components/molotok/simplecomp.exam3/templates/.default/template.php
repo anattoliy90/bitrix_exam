@@ -9,7 +9,12 @@
 			<li><b><?=$firm;?></b></li>
 			<ul>
 				<?foreach($items as $item):?>
-					<li>
+					<?
+					$this->AddEditAction($item["ID"], $item["EDIT_LINK"], CIBlock::GetArrayByID($item["IBLOCK_ID"], "ELEMENT_EDIT"));
+					$this->AddDeleteAction($item["ID"], $item["DELETE_LINK"], CIBlock::GetArrayByID($item["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => GetMessage("CT_BNL_ELEMENT_DELETE_CONFIRM")));
+					?>
+					
+					<li id="<?=$this->GetEditAreaId($item["ID"]);?>">
 						<?=$item["NAME"];?> - <?=$item["PROPERTY_PRICE_VALUE"];?> - <?=$item["PROPERTY_MATERIAL_VALUE"];?> - <?=$item["PROPERTY_ARTNUMBER_VALUE"];?> (<?=$item["DETAIL_PAGE_URL"];?>)
 					</li>
 				<?endforeach;?>
