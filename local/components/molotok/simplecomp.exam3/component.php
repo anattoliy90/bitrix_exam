@@ -57,6 +57,24 @@ if($this->StartResultCache(false, ($USER->GetGroups()))) {
 			}
 		}
 	}
+
+	$arResult["ID"] = $arParams["CATALOG_IBLOCK"];
+	
+	if($USER->IsAuthorized()) {
+		if($APPLICATION->GetShowIncludeAreas()) {
+			if(CModule::IncludeModule("iblock")) {
+				$arButtons = CIBlock::GetPanelButtons(
+					$arResult["ID"],
+					0,
+					$arParams["PARENT_SECTION"],
+					array("SECTION_BUTTONS" => false)
+				);
+
+				if($APPLICATION->GetShowIncludeAreas())
+					$this->AddIncludeAreaIcons(CIBlock::GetComponentMenu($APPLICATION->GetPublicShowMode(), $arButtons));
+			}
+		}
+	}
 	
 	$arResult["COUNT"] = count($arr_count);
 	
