@@ -27,5 +27,11 @@ $arComponentParameters = array(
 			"VALUES" => "",
 		),
 		"CACHE_TIME"  =>  Array("DEFAULT"=>3600),
+		"ITEMS_ON_PAGE" => array(
+			"PARENT" => "BASE",
+			"NAME" => GetMessage("ITEMS_ON_PAGE"),
+			"TYPE" => "STRING",
+			"VALUES" => "",
+		),
 	),
 );
