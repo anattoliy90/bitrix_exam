@@ -11,7 +11,7 @@ $APPLICATION->IncludeComponent(
 		"PROP_CODE" => "FIRM",
 		"CACHE_TYPE" => "A",
 		"CACHE_TIME" => "3600",
-		"ITEMS_ON_PAGE" => "2"
+		"ITEMS_ON_PAGE" => "2",
 	),
 	false
 );

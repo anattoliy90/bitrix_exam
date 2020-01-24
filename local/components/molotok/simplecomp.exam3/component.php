@@ -10,7 +10,14 @@ if(isset($_REQUEST["F"])) {
 	$this->ClearResultCache($USER->GetGroups());
 }
 
-if($this->StartResultCache(false, ($USER->GetGroups()))) {
+$arNavParams = false;
+
+if(!empty($arParams["ITEMS_ON_PAGE"])) {
+	$arNavParams = array("nPageSize" => $arParams["ITEMS_ON_PAGE"]);
+	$arNavigation = CDBResult::GetNavParams($arNavParams);
+}
+
+if($this->StartResultCache(false, array($USER->GetGroups(), $arNavigation))) {
 	if(!CModule::IncludeModule("iblock")) {
 		$this->AbortResultCache();
 		ShowError(GetMessage("IBLOCK_MODULE_NOT_INSTALLED"));
@@ -78,9 +85,9 @@ if($this->StartResultCache(false, ($USER->GetGroups()))) {
 	
 	$arResult["COUNT"] = count($arr_count);
 	
-	$result = CIBlockElement::GetList(array(), array("IBLOCK_ID" => $arParams["CLASSIFIER_IBLOCK"], "ID" => array_keys($arr_items), "CHECK_PERMISSIONS" => "Y"), false, false, array("ID", "NAME"));
+	$result = CIBlockElement::GetList(array(), array("IBLOCK_ID" => $arParams["CLASSIFIER_IBLOCK"], "ID" => array_keys($arr_items), "CHECK_PERMISSIONS" => "Y"), false, $arNavParams, array("ID", "NAME"));
 	while($obj = $result->GetNext())
-	{	
+	{
 		if(array_key_exists($obj["ID"], $arr_items)) {
 			$arr_firm[$obj["NAME"]] = $arr_items[$obj["ID"]];
 		}
@@ -89,6 +96,12 @@ if($this->StartResultCache(false, ($USER->GetGroups()))) {
 	if(!empty($arr_firm)) {
 		$arResult["ITEMS"] = $arr_firm;
 	}
+	
+	$arResult["NAV_STRING"] = $result->GetPageNavStringEx(
+		$navComponentObject,
+		GetMessage("NAVIGATION"),
+		".default"
+	);
 	
 	$this->SetResultCacheKeys(array(
 		"COUNT"
