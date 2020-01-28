@@ -59,6 +59,10 @@ class MyClass
 				return false;
 			}
 		}
+		
+		if(is_object($GLOBALS["CACHE_MANAGER"]) && $arFields["IBLOCK_ID"] == 5) {
+			$GLOBALS["CACHE_MANAGER"]->ClearByTag("cache_tag_iblock_id_" . 2);
+		}
     }
 }
 

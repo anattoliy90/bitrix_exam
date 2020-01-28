@@ -2,6 +2,12 @@
 
 <?if(!empty($arResult["ITEMS"])):?>
 	<div>
+		<?=GetMessage("TIMESTAMP");?>
+		<?=time();?>
+		<br>
+		<br>
+	</div>
+	<div>
 		<?=GetMessage("FILTER");?> <a href="<?=$APPLICATION->GetCurPage(false) . "?F=Y";?>" target="_blank"><?=$APPLICATION->GetCurPage(false) . "?F=Y";?></a>
 	</div>
 	<ul>
@@ -21,5 +27,8 @@
 			</ul>
 		<?endforeach;?>
 	</ul>
-	<div><?=$arResult["NAV_STRING"]?></div>
+	<div>
+		<br>
+		<?=$arResult["NAV_STRING"]?>
+	</div>
 <?endif;?>

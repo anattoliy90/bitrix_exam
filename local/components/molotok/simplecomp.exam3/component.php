@@ -17,12 +17,12 @@ if(!empty($arParams["ITEMS_ON_PAGE"])) {
 	$arNavigation = CDBResult::GetNavParams($arNavParams);
 }
 
-if($this->StartResultCache(false, array($USER->GetGroups(), $arNavigation))) {
+/*if($this->StartResultCache(false, array($USER->GetGroups(), $arNavigation))) {
 	if(!CModule::IncludeModule("iblock")) {
 		$this->AbortResultCache();
 		ShowError(GetMessage("IBLOCK_MODULE_NOT_INSTALLED"));
 		return;
-	}
+	}*/
 	
 	$arr_items = array();
 	$arr_firm = array();
@@ -42,10 +42,16 @@ if($this->StartResultCache(false, array($USER->GetGroups(), $arNavigation))) {
 		$arrFilter = array_merge($arrFilter, $arrFilter_ext);
 	}
 	
-	$res = CIBlockElement::GetList(array("NAME" => "ASC", "SORT" => "ASC"), $arrFilter, false, false, array("ID", "NAME", "IBLOCK_SECTION_ID", "PROPERTY_PRICE", "PROPERTY_MATERIAL", "PROPERTY_ARTNUMBER", "PROPERTY_" . $arParams["PROP_CODE"], "DETAIL_PAGE_URL"));	
+	$res = CIBlockElement::GetList(array("NAME" => "ASC", "SORT" => "ASC"), $arrFilter, false, false, array("ID", "NAME", "IBLOCK_SECTION_ID", "PROPERTY_PRICE", "PROPERTY_MATERIAL", "PROPERTY_ARTNUMBER", "PROPERTY_" . $arParams["PROP_CODE"], "DETAIL_PAGE_URL"));
+	
+	global $CACHE_MANAGER;
+	$CACHE_MANAGER->StartTagCache("/cache_tag/");
+	
 	$res->SetUrlTemplates($arParams["DETAIL_URL_TEMPLATE"]);
 	while($ob = $res->GetNext())
 	{
+		$CACHE_MANAGER->RegisterTag("cache_tag_iblock_id_" . $arParams["CLASSIFIER_IBLOCK"]);
+		
 		$arButtons = CIBlock::GetPanelButtons(
 			$ob["IBLOCK_ID"],
 			$ob["ID"],
@@ -64,6 +70,8 @@ if($this->StartResultCache(false, array($USER->GetGroups(), $arNavigation))) {
 			}
 		}
 	}
+	
+	$CACHE_MANAGER->EndTagCache();
 
 	$arResult["ID"] = $arParams["CATALOG_IBLOCK"];
 	
@@ -107,6 +115,6 @@ if($this->StartResultCache(false, array($USER->GetGroups(), $arNavigation))) {
 		"COUNT"
 	));
 	$this->IncludeComponentTemplate();
-}
+//}
 
 $APPLICATION->SetTitle(GetMessage("ITEMS_COUNT") . "[" . $arResult["COUNT"] . "]");
