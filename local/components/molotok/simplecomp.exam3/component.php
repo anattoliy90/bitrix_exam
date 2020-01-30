@@ -1,5 +1,7 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
 
+CModule::IncludeModule('iblock');
+
 if(!isset($arParams["CACHE_TIME"]))
 	$arParams["CACHE_TIME"] = 3600;
 
@@ -16,6 +18,15 @@ if(!empty($arParams["ITEMS_ON_PAGE"])) {
 	$arNavParams = array("nPageSize" => $arParams["ITEMS_ON_PAGE"]);
 	$arNavigation = CDBResult::GetNavParams($arNavParams);
 }
+
+$cache_id = serialize($USER->GetGroups()) . serialize($arNavigation);
+$cache_dir = "/cache_tag/";
+
+$obCache = new CPHPCache;
+if($obCache->InitCache($arParams["CACHE_TIME"], $cache_id, $cache_dir)) {
+	$arResult = $obCache->GetVars();
+	$obCache->Output();
+} elseif($obCache->StartDataCache()) {
 
 /*if($this->StartResultCache(false, array($USER->GetGroups(), $arNavigation))) {
 	if(!CModule::IncludeModule("iblock")) {
@@ -43,15 +54,9 @@ if(!empty($arParams["ITEMS_ON_PAGE"])) {
 	}
 	
 	$res = CIBlockElement::GetList(array("NAME" => "ASC", "SORT" => "ASC"), $arrFilter, false, false, array("ID", "NAME", "IBLOCK_SECTION_ID", "PROPERTY_PRICE", "PROPERTY_MATERIAL", "PROPERTY_ARTNUMBER", "PROPERTY_" . $arParams["PROP_CODE"], "DETAIL_PAGE_URL"));
-	
-	global $CACHE_MANAGER;
-	$CACHE_MANAGER->StartTagCache("/cache_tag/");
-	
 	$res->SetUrlTemplates($arParams["DETAIL_URL_TEMPLATE"]);
 	while($ob = $res->GetNext())
 	{
-		$CACHE_MANAGER->RegisterTag("cache_tag_iblock_id_" . $arParams["CLASSIFIER_IBLOCK"]);
-		
 		$arButtons = CIBlock::GetPanelButtons(
 			$ob["IBLOCK_ID"],
 			$ob["ID"],
@@ -70,8 +75,6 @@ if(!empty($arParams["ITEMS_ON_PAGE"])) {
 			}
 		}
 	}
-	
-	$CACHE_MANAGER->EndTagCache();
 
 	$arResult["ID"] = $arParams["CATALOG_IBLOCK"];
 	
@@ -93,17 +96,21 @@ if(!empty($arParams["ITEMS_ON_PAGE"])) {
 	
 	$arResult["COUNT"] = count($arr_count);
 	
-	$result = CIBlockElement::GetList(array(), array("IBLOCK_ID" => $arParams["CLASSIFIER_IBLOCK"], "ID" => array_keys($arr_items), "CHECK_PERMISSIONS" => "Y"), false, $arNavParams, array("ID", "NAME"));
+	$result = CIBlockElement::GetList(array(), array("IBLOCK_ID" => $arParams["CLASSIFIER_IBLOCK"], "ID" => array_keys($arr_items), "CHECK_PERMISSIONS" => "Y"), false, $arNavParams, array("ID", "NAME", "IBLOCK_ID"));
+	
+	global $CACHE_MANAGER;
+	$CACHE_MANAGER->StartTagCache($cache_dir);
+	
 	while($obj = $result->GetNext())
 	{
+		$CACHE_MANAGER->RegisterTag("cache_tag_iblock_id_" . $obj["IBLOCK_ID"]);
+		
 		if(array_key_exists($obj["ID"], $arr_items)) {
-			$arr_firm[$obj["NAME"]] = $arr_items[$obj["ID"]];
+			$arResult["ITEMS"][$obj["NAME"]] = $arr_items[$obj["ID"]];
 		}
 	}
 	
-	if(!empty($arr_firm)) {
-		$arResult["ITEMS"] = $arr_firm;
-	}
+	$CACHE_MANAGER->EndTagCache();
 	
 	$arResult["NAV_STRING"] = $result->GetPageNavStringEx(
 		$navComponentObject,
@@ -114,7 +121,10 @@ if(!empty($arParams["ITEMS_ON_PAGE"])) {
 	$this->SetResultCacheKeys(array(
 		"COUNT"
 	));
+	
 	$this->IncludeComponentTemplate();
-//}
+	
+	$obCache->EndDataCache($arResult);
+}
 
 $APPLICATION->SetTitle(GetMessage("ITEMS_COUNT") . "[" . $arResult["COUNT"] . "]");
