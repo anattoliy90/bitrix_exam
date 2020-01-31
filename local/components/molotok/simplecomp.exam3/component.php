@@ -20,7 +20,7 @@ if(!empty($arParams["ITEMS_ON_PAGE"])) {
 }
 
 $cache_id = serialize($USER->GetGroups()) . serialize($arNavigation);
-$cache_dir = "/cache_tag/";
+$cache_dir = "/cache_tag";
 
 $obCache = new CPHPCache;
 if($obCache->InitCache($arParams["CACHE_TIME"], $cache_id, $cache_dir)) {
