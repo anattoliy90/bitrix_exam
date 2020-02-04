@@ -4,6 +4,7 @@ IncludeModuleLangFile(__FILE__);
 AddEventHandler("main", "OnBeforeEventAdd", array("MyClass", "OnBeforeEventAddHandler"));
 AddEventHandler("main", "OnBuildGlobalMenu", "MyOnBuildGlobalMenu");
 AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", Array("MyClass", "OnBeforeIBlockElementUpdateHandler"));
+AddEventHandler("iblock", "OnAfterIBlockElementUpdate", Array("MyClass", "OnAfterIBlockElementUpdateHandler"));
 AddEventHandler("main", "OnEpilog", "controller_404");
 
 function controller_404()
@@ -29,7 +30,7 @@ function controller_404()
 class MyClass
 {
 	function OnBeforeEventAddHandler(&$event, &$lid, &$arFields)
-	{        
+	{
         if($event == "FEEDBACK_FORM") {
             global $USER;
            
@@ -59,11 +60,14 @@ class MyClass
 				return false;
 			}
 		}
-		
-		if(is_object($GLOBALS["CACHE_MANAGER"]) && $arFields["IBLOCK_ID"] == 5) {
-			$GLOBALS["CACHE_MANAGER"]->ClearByTag("cache_tag_iblock_id_" . $arFields["IBLOCK_ID"]);
-		}
     }
+	
+	function OnAfterIBlockElementUpdateHandler(&$arFields)
+    {
+		if(is_object($GLOBALS["CACHE_MANAGER"]) && $arFields["IBLOCK_ID"] == 3) {
+			$GLOBALS["CACHE_MANAGER"]->ClearByTag("cache_tag_iblock_id_5");
+		}
+	}
 }
 
 function MyOnBuildGlobalMenu(&$aGlobalMenu, &$aModuleMenu)
