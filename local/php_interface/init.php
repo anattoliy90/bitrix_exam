@@ -1,6 +1,9 @@
 <?
 IncludeModuleLangFile(__FILE__);
 
+define("SERVICES_IBLOCK_ID", 3);
+define("FIRM_IBLOCK_ID", 5);
+
 AddEventHandler("main", "OnBeforeEventAdd", array("MyClass", "OnBeforeEventAddHandler"));
 AddEventHandler("main", "OnBuildGlobalMenu", "MyOnBuildGlobalMenu");
 AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", Array("MyClass", "OnBeforeIBlockElementUpdateHandler"));
@@ -63,9 +66,9 @@ class MyClass
     }
 	
 	function OnAfterIBlockElementUpdateHandler(&$arFields)
-    {
-		if(is_object($GLOBALS["CACHE_MANAGER"]) && $arFields["IBLOCK_ID"] == 3) {
-			$GLOBALS["CACHE_MANAGER"]->ClearByTag("cache_tag_iblock_id_5");
+    {		
+		if(is_object($GLOBALS["CACHE_MANAGER"]) && $arFields["IBLOCK_ID"] == SERVICES_IBLOCK_ID) {
+			$GLOBALS["CACHE_MANAGER"]->ClearByTag("cache_tag_iblock_id_" . FIRM_IBLOCK_ID);
 		}
 	}
 }
