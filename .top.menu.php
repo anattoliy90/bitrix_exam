@@ -1,5 +1,5 @@
-<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
-<?
+<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+
 $aMenuLinks = Array(
 	Array(
 		"Компания", 
@@ -38,10 +38,9 @@ $aMenuLinks = Array(
 	),
     Array(
 		"Экзамен2", 
-		"ex2/feedback/", 
+		"ex2/", 
 		Array(), 
 		Array(), 
 		"" 
 	),
 );
-?>

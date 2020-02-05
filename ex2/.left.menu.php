@@ -1,5 +1,5 @@
-<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
-<?
+<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+
 $aMenuLinks = Array(
 	Array(
 		"Форма обратной связи", 
@@ -36,12 +36,18 @@ $aMenuLinks = Array(
 		Array(), 
 		"" 
 	),
-            Array(
-		"Простой компонент3", 
-		"simplecomp3/", 
-		Array(), 
-		Array(), 
-		"" 
-	),
+    Array(
+        "Простой компонент3", 
+        "simplecomp3/", 
+        Array(), 
+        Array(), 
+        "" 
+    ),
+    Array(
+        "Оценка производительности", 
+        "time_control/", 
+        Array(), 
+        Array(), 
+        "" 
+    ),
 );
-?>
