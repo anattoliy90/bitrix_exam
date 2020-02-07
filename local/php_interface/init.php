@@ -21,13 +21,13 @@ function controller_404()
 		));
 	}
 	
-	$res = CIBlockElement::GetList(array(), array("IBLOCK_ID" => 5, "=NAME" => $_SERVER["REQUEST_URI"]), false, false, array("ID", "NAME", "PROPERTY_TITLE", "PROPERTY_DESCRIPTION"));
+	/*$res = CIBlockElement::GetList(array(), array("IBLOCK_ID" => 5, "=NAME" => $_SERVER["REQUEST_URI"]), false, false, array("ID", "NAME", "PROPERTY_TITLE", "PROPERTY_DESCRIPTION"));
 	while($ob = $res->GetNext())
 	{
 		global $APPLICATION;
 		$APPLICATION->SetTitle($ob["PROPERTY_TITLE_VALUE"]);
 		$APPLICATION->SetPageProperty($ob["PROPERTY_DESCRIPTION_VALUE"]);
-	}
+	}*/
 }
 
 class MyClass
