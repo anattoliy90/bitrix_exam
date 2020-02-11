@@ -75,33 +75,6 @@ if($obCache->InitCache($arParams["CACHE_TIME"], $cache_id, $cache_dir)) {
 			}
 		}
 	}
-	
-	// [ex2-88] Оценить скорость работы сайта – страницы и созданный простой компонент «Каталог товаров»
-	/*while($ob = $res->GetNextElement())
-	{
-		$arItem = $ob->GetFields();
-		$arItem["PROPERTIES"] = $ob->GetProperties();
-		
-		$arButtons = CIBlock::GetPanelButtons(
-			$arItem["IBLOCK_ID"],
-			$arItem["ID"],
-			0,
-			array("SECTION_BUTTONS" => false, "SESSID" => false)
-		);
-		
-		$arItem["EDIT_LINK"] = $arButtons["edit"]["edit_element"]["ACTION_URL"];
-		$arItem["DELETE_LINK"] = $arButtons["edit"]["delete_element"]["ACTION_URL"];
-		
-		if(!empty($arItem["PROPERTIES"]["FIRM"]["VALUE"])) {
-			foreach($arItem["PROPERTIES"]["FIRM"]["VALUE"] as $firm) {
-				$arr_items[$firm][] = $arItem;
-			}
-			
-			if(!in_array($arItem["ID"], $arr_count)) {
-				$arr_count[] = $arItem["ID"];
-			}
-		}
-	}*/
 
 	$arResult["ID"] = $arParams["CATALOG_IBLOCK"];
 	
@@ -144,6 +117,9 @@ if($obCache->InitCache($arParams["CACHE_TIME"], $cache_id, $cache_dir)) {
 		GetMessage("NAVIGATION"),
 		".default"
 	);
+	
+	// [ex2-88]
+	//$this->SetResultCacheKeys();
 	
 	$this->SetResultCacheKeys(array(
 		"COUNT"
