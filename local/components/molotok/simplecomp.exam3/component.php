@@ -9,7 +9,7 @@ $arParams["CATALOG_IBLOCK"] = intval($arParams["CATALOG_IBLOCK"]);
 $arParams["CLASSIFIER_IBLOCK"] = intval($arParams["CLASSIFIER_IBLOCK"]);
 
 if(isset($_REQUEST["F"])) {
-	$this->ClearResultCache($USER->GetGroups());
+	$arParams["CACHE_TIME"] = 0;
 }
 
 $arNavParams = false;
@@ -42,15 +42,11 @@ if($obCache->InitCache($arParams["CACHE_TIME"], $cache_id, $cache_dir)) {
 	$arrFilter = array("IBLOCK_ID" => $arParams["CATALOG_IBLOCK"], "ACTIVE" => "Y", "CHECK_PERMISSIONS" => "Y");
 	
 	if(isset($_REQUEST["F"])) {
-		$this->AbortResultCache();
-		
-		$arrFilter_ext = array(array(
+		$arrFilter[] = [
 			"LOGIC" => "OR",
 			array("<=PROPERTY_PRICE" => 1700, "PROPERTY_MATERIAL" => "Дерево, ткань"),
 			array("<PROPERTY_PRICE" => 1500, "PROPERTY_MATERIAL" => "Металл, пластик"),
-		));
-		
-		$arrFilter = array_merge($arrFilter, $arrFilter_ext);
+		];
 	}
 	
 	$res = CIBlockElement::GetList(array("NAME" => "ASC", "SORT" => "ASC"), $arrFilter, false, false, array("ID", "NAME", "IBLOCK_SECTION_ID", "PROPERTY_PRICE", "PROPERTY_MATERIAL", "PROPERTY_ARTNUMBER", "PROPERTY_" . $arParams["PROP_CODE"], "DETAIL_PAGE_URL"));
