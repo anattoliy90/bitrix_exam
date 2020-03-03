@@ -88,3 +88,34 @@ function MyOnBuildGlobalMenu(&$aGlobalMenu, &$aModuleMenu)
 		}
 	}
 }
+
+function CheckUserCount() {
+	$usersId = [];
+	$usersLastDate = COption::GetOptionString("main", "users_last_date");
+	$days = 1;
+	
+	$todayDay = date("d", time());
+	$usersLastDateDay = date("d", strtotime($usersLastDate));
+	
+	$days = $todayDay - $usersLastDateDay;
+	
+	//echo "<pre>";print_r($days);
+	
+	$rsUsers = CUser::GetList(($by="ID"), ($order="ASC"), ["DATE_REGISTER_1" => $usersLastDate]);
+	while($arUsers = $rsUsers->Fetch()) {
+		$usersId[] = $arUsers["ID"];
+	}
+	
+	$arEventFields = [
+		"count" => count($usersId),
+		"days" => $days,
+	];
+	
+	//CEvent::Send("USERS_COUNT", SITE_ID, $arEventFields);
+	
+	COption::SetOptionString("main", "users_last_date", date("d.m.Y H:i:s", time()));
+}
+
+/*CheckUserCount();
+
+die();*/
