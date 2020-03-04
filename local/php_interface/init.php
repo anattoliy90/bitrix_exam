@@ -90,32 +90,42 @@ function MyOnBuildGlobalMenu(&$aGlobalMenu, &$aModuleMenu)
 }
 
 function CheckUserCount() {
+	// TODO cheack agent
+	
 	$usersId = [];
+	$adminUsersEmail = [];
 	$usersLastDate = COption::GetOptionString("main", "users_last_date");
 	$days = 1;
 	
 	$todayDay = date("d", time());
 	$usersLastDateDay = date("d", strtotime($usersLastDate));
 	
-	$days = $todayDay - $usersLastDateDay;
-	
-	//echo "<pre>";print_r($days);
+	if ($todayDay > $usersLastDateDay) {
+		$days = $todayDay - $usersLastDateDay;
+	}
 	
 	$rsUsers = CUser::GetList(($by="ID"), ($order="ASC"), ["DATE_REGISTER_1" => $usersLastDate]);
 	while($arUsers = $rsUsers->Fetch()) {
 		$usersId[] = $arUsers["ID"];
 	}
 	
-	$arEventFields = [
-		"count" => count($usersId),
-		"days" => $days,
-	];
+	$rsUsers = CUser::GetList(($by = "NAME"), ($order = "desc"), ["GROUPS_ID" => "1"]);
+	while ($arUser = $rsUsers->Fetch()) {
+		$adminUsersEmail[] = $arUser["EMAIL"];
+	}
 	
-	//CEvent::Send("USERS_COUNT", SITE_ID, $arEventFields);
+	foreach ($adminUsersEmail as $email) {
+		$arEventFields = [
+			"EMAIL" => $email,
+			"COUNT" => count($usersId),
+			"DAYS" => $days,
+		];
+		
+		CEvent::Send("USERS_COUNT", SITE_ID, $arEventFields);
+	}
+
+	//COption::SetOptionString("main", "users_last_date", date("d.m.Y H:i:s", time()));
+	COption::SetOptionString("main", "users_last_date", '02.03.2020 09:36:09');
 	
-	COption::SetOptionString("main", "users_last_date", date("d.m.Y H:i:s", time()));
+	return "CheckUserCount();";
 }
-
-/*CheckUserCount();
-
-die();*/
