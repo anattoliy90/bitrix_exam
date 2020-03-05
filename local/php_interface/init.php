@@ -66,7 +66,7 @@ class MyClass
     }
 	
 	function OnAfterIBlockElementUpdateHandler(&$arFields)
-    {		
+    {
 		if(is_object($GLOBALS["CACHE_MANAGER"]) && $arFields["IBLOCK_ID"] == SERVICES_IBLOCK_ID) {
 			$GLOBALS["CACHE_MANAGER"]->ClearByTag("cache_tag_iblock_id_" . FIRM_IBLOCK_ID);
 		}
@@ -90,42 +90,38 @@ function MyOnBuildGlobalMenu(&$aGlobalMenu, &$aModuleMenu)
 }
 
 function CheckUserCount() {
-	// TODO cheack agent
-	
 	$usersId = [];
 	$adminUsersEmail = [];
 	$usersLastDate = COption::GetOptionString("main", "users_last_date");
-	$days = 1;
 	
-	$todayDay = date("d", time());
-	$usersLastDateDay = date("d", strtotime($usersLastDate));
-	
-	if ($todayDay > $usersLastDateDay) {
-		$days = $todayDay - $usersLastDateDay;
-	}
+	$today = time();
+	$usersLastDateTime = strtotime($usersLastDate);
+	$dateDiff = $today - $usersLastDateTime;
+	$days = round($dateDiff / (60 * 60 * 24));
 	
 	$rsUsers = CUser::GetList(($by="ID"), ($order="ASC"), ["DATE_REGISTER_1" => $usersLastDate]);
 	while($arUsers = $rsUsers->Fetch()) {
 		$usersId[] = $arUsers["ID"];
 	}
 	
-	$rsUsers = CUser::GetList(($by = "NAME"), ($order = "desc"), ["GROUPS_ID" => "1"]);
-	while ($arUser = $rsUsers->Fetch()) {
+	$rsUser = CUser::GetList(($by = "NAME"), ($order = "desc"), ["GROUPS_ID" => "1"]);
+	while ($arUser = $rsUser->Fetch()) {
 		$adminUsersEmail[] = $arUser["EMAIL"];
 	}
 	
-	foreach ($adminUsersEmail as $email) {
-		$arEventFields = [
-			"EMAIL" => $email,
-			"COUNT" => count($usersId),
-			"DAYS" => $days,
-		];
-		
-		CEvent::Send("USERS_COUNT", SITE_ID, $arEventFields);
+	if (!empty($adminUsersEmail)) {
+		foreach ($adminUsersEmail as $email) {
+			$arEventFields = [
+				"EMAIL" => $email,
+				"COUNT" => count($usersId),
+				"DAYS" => $days,
+			];
+			
+			CEvent::Send("USERS_COUNT", SITE_ID, $arEventFields);
+		}
 	}
 
-	//COption::SetOptionString("main", "users_last_date", date("d.m.Y H:i:s", time()));
-	COption::SetOptionString("main", "users_last_date", '02.03.2020 09:36:09');
+	COption::SetOptionString("main", "users_last_date", date("d.m.Y H:i:s", time()));
 	
 	return "CheckUserCount();";
 }

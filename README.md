@@ -12,7 +12,6 @@ http://academy.1c-bitrix.ru/education/index.php?COURSE_ID=67&INDEX=Y
 - Главный модуль - по умолчанию
 
 ## Todo:
-- Ex2AllType - [ex2-54] Подсчет количества зарегистрированных пользователей ( поместить дату в главный модуль - COption::SetOptionString("main","last_date","$last_date"); )
 - Ex2AllType - [ex2-104] Сбор жалоб на новости, на AJAX
 - Forum
-- All tickets on time
+- All tickets, new git (Задание с тегированным кешем сделать со StartResultCache)
