@@ -94,10 +94,10 @@ function CheckUserCount() {
 	$adminUsersEmail = [];
 	$usersLastDate = COption::GetOptionString("main", "users_last_date");
 	
-	$today = time();
-	$usersLastDateTime = strtotime($usersLastDate);
-	$dateDiff = $today - $usersLastDateTime;
-	$days = round($dateDiff / (60 * 60 * 24));
+	$today = new DateTime("now");
+	$today->format('d.m.Y H:i:s');
+	$usersLastDateTime = new DateTime($usersLastDate);
+	$days = $today->diff($usersLastDateTime)->d;
 	
 	$rsUsers = CUser::GetList(($by="ID"), ($order="ASC"), ["DATE_REGISTER_1" => $usersLastDate]);
 	while($arUsers = $rsUsers->Fetch()) {
