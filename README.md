@@ -9,4 +9,5 @@ http://academy.1c-bitrix.ru/education/index.php?COURSE_ID=67&INDEX=Y
 ## Todo:
 - Ex2AllType - [ex2-104] Сбор жалоб на новости, на AJAX
 - Forum
-- All tickets, new git (Задание с тегированным кешем сделать со StartResultCache)
+- New git - bitrix_exam2
+- All tickets (Задание с тегированным кешем сделать со StartResultCache)

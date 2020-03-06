@@ -9,6 +9,14 @@
 	<?if($arParams["DISPLAY_NAME"]!="N" && $arResult["NAME"]):?>
 		<h3><?=$arResult["NAME"]?></h3>
 	<?endif;?>
+	
+	<?echo "<pre>";print_r($_REQUEST);echo "</pre>";?>
+	
+	<form action="./">
+		<input type="hidden" value="">
+		<button type="submit" name="submit" value="Y"><?= GetMessage('COMPLAIN') ?></button>
+	</form>
+	
 	<div class="news-detail">
 	<?if($arParams["DISPLAY_PREVIEW_TEXT"]!="N" && $arResult["FIELDS"]["PREVIEW_TEXT"]):?>
 		<p><?=$arResult["FIELDS"]["PREVIEW_TEXT"];unset($arResult["FIELDS"]["PREVIEW_TEXT"]);?></p>
