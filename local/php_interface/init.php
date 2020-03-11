@@ -7,11 +7,9 @@ define("FIRM_IBLOCK_ID", 5);
 AddEventHandler("main", "OnBeforeEventAdd", array("MyClass", "OnBeforeEventAddHandler"));
 AddEventHandler("main", "OnBuildGlobalMenu", "MyOnBuildGlobalMenu");
 AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", Array("MyClass", "OnBeforeIBlockElementUpdateHandler"));
-AddEventHandler("iblock", "OnAfterIBlockElementUpdate", Array("MyClass", "OnAfterIBlockElementUpdateHandler"));
 AddEventHandler("main", "OnEpilog", "controller_404");
 
-function controller_404()
-{
+function controller_404() {
 	if(defined("ERROR_404") && ERROR_404 == "Y") {
 		CEventLog::Add(array(
 			"SEVERITY" => "INFO",
@@ -22,8 +20,7 @@ function controller_404()
 	}
 	
 	/*$res = CIBlockElement::GetList(array(), array("IBLOCK_ID" => 5, "=NAME" => $_SERVER["REQUEST_URI"]), false, false, array("ID", "NAME", "PROPERTY_TITLE", "PROPERTY_DESCRIPTION"));
-	while($ob = $res->GetNext())
-	{
+	while($ob = $res->GetNext()) {
 		global $APPLICATION;
 		$APPLICATION->SetTitle($ob["PROPERTY_TITLE_VALUE"]);
 		$APPLICATION->SetPageProperty($ob["PROPERTY_DESCRIPTION_VALUE"]);
@@ -64,17 +61,9 @@ class MyClass
 			}
 		}
     }
-	
-	function OnAfterIBlockElementUpdateHandler(&$arFields)
-    {
-		if(is_object($GLOBALS["CACHE_MANAGER"]) && $arFields["IBLOCK_ID"] == SERVICES_IBLOCK_ID) {
-			$GLOBALS["CACHE_MANAGER"]->ClearByTag("cache_tag_iblock_id_" . FIRM_IBLOCK_ID);
-		}
-	}
 }
 
-function MyOnBuildGlobalMenu(&$aGlobalMenu, &$aModuleMenu)
-{
+function MyOnBuildGlobalMenu(&$aGlobalMenu, &$aModuleMenu) {
 	global $USER;
 	$arGroups = CUser::GetUserGroup($USER->GetID());
 	

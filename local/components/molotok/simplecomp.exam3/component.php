@@ -1,4 +1,6 @@
-<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
+<? if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
+
+global $CACHE_MANAGER;
 
 CModule::IncludeModule('iblock');
 
@@ -19,21 +21,12 @@ if(!empty($arParams["ITEMS_ON_PAGE"])) {
 	$arNavigation = CDBResult::GetNavParams($arNavParams);
 }
 
-$cache_id = serialize($USER->GetGroups()) . serialize($arNavigation);
-$cache_dir = "/cache_tag";
-
-$obCache = new CPHPCache;
-if($obCache->InitCache($arParams["CACHE_TIME"], $cache_id, $cache_dir)) {
-	$arResult = $obCache->GetVars();
-	$obCache->Output();
-} elseif($obCache->StartDataCache()) {
-
-/*if($this->StartResultCache(false, array($USER->GetGroups(), $arNavigation))) {
+if($this->StartResultCache(false, array($USER->GetGroups(), $arNavigation))) {
 	if(!CModule::IncludeModule("iblock")) {
 		$this->AbortResultCache();
 		ShowError(GetMessage("IBLOCK_MODULE_NOT_INSTALLED"));
 		return;
-	}*/
+	}
 	
 	$arr_items = array();
 	$arr_firm = array();
@@ -93,20 +86,14 @@ if($obCache->InitCache($arParams["CACHE_TIME"], $cache_id, $cache_dir)) {
 	$arResult["COUNT"] = count($arr_count);
 	
 	$result = CIBlockElement::GetList(array(), array("IBLOCK_ID" => $arParams["CLASSIFIER_IBLOCK"], "ID" => array_keys($arr_items), "CHECK_PERMISSIONS" => "Y"), false, $arNavParams, array("ID", "NAME", "IBLOCK_ID"));
-	
-	global $CACHE_MANAGER;
-	$CACHE_MANAGER->StartTagCache($cache_dir);
-	
-	while($obj = $result->GetNext())
-	{
-		$CACHE_MANAGER->RegisterTag("cache_tag_iblock_id_" . $obj["IBLOCK_ID"]);
+	while($obj = $result->GetNext()) {
+		// tag chache for iblock 'Услуги'
+		$CACHE_MANAGER->RegisterTag("iblock_id_3");
 		
 		if(array_key_exists($obj["ID"], $arr_items)) {
 			$arResult["ITEMS"][$obj["NAME"]] = $arr_items[$obj["ID"]];
 		}
 	}
-	
-	$CACHE_MANAGER->EndTagCache();
 	
 	$arResult["NAV_STRING"] = $result->GetPageNavStringEx(
 		$navComponentObject,
@@ -115,15 +102,13 @@ if($obCache->InitCache($arParams["CACHE_TIME"], $cache_id, $cache_dir)) {
 	);
 	
 	// [ex2-88]
-	//$this->SetResultCacheKeys();
+	// $this->SetResultCacheKeys();
 	
 	$this->SetResultCacheKeys(array(
 		"COUNT"
 	));
 	
 	$this->IncludeComponentTemplate();
-	
-	$obCache->EndDataCache($arResult);
 }
 
 $APPLICATION->SetTitle(GetMessage("ITEMS_COUNT") . "[" . $arResult["COUNT"] . "]");
