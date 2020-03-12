@@ -4,15 +4,16 @@ global $CACHE_MANAGER;
 
 CModule::IncludeModule('iblock');
 
-if(!isset($arParams["CACHE_TIME"]))
+if(!isset($arParams["CACHE_TIME"])) {
 	$arParams["CACHE_TIME"] = 3600;
-
-$arParams["CATALOG_IBLOCK"] = intval($arParams["CATALOG_IBLOCK"]);
-$arParams["CLASSIFIER_IBLOCK"] = intval($arParams["CLASSIFIER_IBLOCK"]);
+}
 
 if(isset($_REQUEST["F"])) {
 	$arParams["CACHE_TIME"] = 0;
 }
+	
+$arParams["CATALOG_IBLOCK"] = intval($arParams["CATALOG_IBLOCK"]);
+$arParams["CLASSIFIER_IBLOCK"] = intval($arParams["CLASSIFIER_IBLOCK"]);
 
 $arNavParams = false;
 
@@ -44,8 +45,7 @@ if($this->StartResultCache(false, array($USER->GetGroups(), $arNavigation))) {
 	
 	$res = CIBlockElement::GetList(array("NAME" => "ASC", "SORT" => "ASC"), $arrFilter, false, false, array("ID", "NAME", "IBLOCK_SECTION_ID", "PROPERTY_PRICE", "PROPERTY_MATERIAL", "PROPERTY_ARTNUMBER", "PROPERTY_" . $arParams["PROP_CODE"], "DETAIL_PAGE_URL"));
 	$res->SetUrlTemplates($arParams["DETAIL_URL_TEMPLATE"]);
-	while($ob = $res->GetNext())
-	{
+	while($ob = $res->GetNext()) {
 		$arButtons = CIBlock::GetPanelButtons(
 			$ob["IBLOCK_ID"],
 			$ob["ID"],
@@ -69,17 +69,15 @@ if($this->StartResultCache(false, array($USER->GetGroups(), $arNavigation))) {
 	
 	if($USER->IsAuthorized()) {
 		if($APPLICATION->GetShowIncludeAreas()) {
-			if(CModule::IncludeModule("iblock")) {
-				$arButtons = CIBlock::GetPanelButtons(
-					$arResult["ID"],
-					0,
-					$arParams["PARENT_SECTION"],
-					array("SECTION_BUTTONS" => false)
-				);
+			$arButtons = CIBlock::GetPanelButtons(
+				$arResult["ID"],
+				0,
+				$arParams["PARENT_SECTION"],
+				array("SECTION_BUTTONS" => false)
+			);
 
-				if($APPLICATION->GetShowIncludeAreas())
-					$this->AddIncludeAreaIcons(CIBlock::GetComponentMenu($APPLICATION->GetPublicShowMode(), $arButtons));
-			}
+			if($APPLICATION->GetShowIncludeAreas())
+				$this->AddIncludeAreaIcons(CIBlock::GetComponentMenu($APPLICATION->GetPublicShowMode(), $arButtons));
 		}
 	}
 	
