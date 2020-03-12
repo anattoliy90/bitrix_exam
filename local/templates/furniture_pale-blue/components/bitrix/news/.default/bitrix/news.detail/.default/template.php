@@ -10,11 +10,9 @@
 		<h3><?=$arResult["NAME"]?></h3>
 	<?endif;?>
 	
-	<?echo "<pre>";print_r($_REQUEST);echo "</pre>";?>
-	
 	<form action="./">
 		<input type="hidden" value="">
-		<button type="submit" name="submit" value="Y"><?= GetMessage('COMPLAIN') ?></button>
+		<button type="submit" name="complain_submit" value="Y"><?= GetMessage('COMPLAIN') ?></button>
 	</form>
 	
 	<div class="news-detail">
