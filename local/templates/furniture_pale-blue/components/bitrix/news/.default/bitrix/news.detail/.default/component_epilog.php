@@ -29,13 +29,27 @@ if ($_REQUEST['complain_submit'] == 'Y') {
         'ACTIVE' => 'Y',
         'ACTIVE_FROM' => $currentDate,
         'PROPERTY_VALUES' => $props,
-      ];
+    ];
     
-    $productId = $el->Add($arLoadProductArray);
+    //$productId = $el->Add($arLoadProductArray);
     
-    if ($arParams['CUSTOM_AJAX'] == 'Y') {
-        
-    } else {
-        
-    }
+    //$arResult['RESULT'] = 'test';
+    
+    if ($arParams['CUSTOM_AJAX'] == 'Y'): ?>
+        <script>
+            $('.complainForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                $.ajax({
+                    method: 'POST',
+                    url: '',
+                    success: function(data) {
+                        
+                    }
+                });
+                
+                console.log('!'); 
+            });
+        </script>
+    <? endif;
 }

@@ -10,10 +10,14 @@
 		<h3><?=$arResult["NAME"]?></h3>
 	<?endif;?>
 	
-	<form action="./">
+	<form class="complainForm" action="./">
 		<input type="hidden" value="">
 		<button type="submit" name="complain_submit" value="Y"><?= GetMessage('COMPLAIN') ?></button>
 	</form>
+	
+	<? if(!empty($arResult['RESULT'])) :?>
+		<div class="result"><?= $arResult['RESULT']; ?></div>
+	<?endif;?>
 	
 	<div class="news-detail">
 	<?if($arParams["DISPLAY_PREVIEW_TEXT"]!="N" && $arResult["FIELDS"]["PREVIEW_TEXT"]):?>
