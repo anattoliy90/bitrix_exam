@@ -5,6 +5,7 @@ if(!empty($arResult["CANONICAL"])) {
 }
 
 if ($_REQUEST['complain_submit'] == 'Y') {
+    $result = '';
     $currentDate = date('d.m.Y H:i:s');
     $user = 'Не авторизован';
     
@@ -14,42 +15,45 @@ if ($_REQUEST['complain_submit'] == 'Y') {
         
         $user = $arUser['ID'] . ', ' .  $arUser['LOGIN'] . ', ' . $arUser['LAST_NAME'] . $arUser['NAME'] . $arUser['SECOND_NAME'];
     }
-    
-    //echo "<pre>";print_r($arResult);echo "</pre>";
 
     $el = new CIBlockElement;
 
     $props = [];
-    $props[10] = $user;
-    $props[11] = $arResult['ID'];
+    $props[9] = $user;
+    $props[10] = $arResult['ID'];
 
     $arLoadProductArray = [
-        'IBLOCK_ID' => 6,
+        'IBLOCK_ID' => NEWS_COMPLAIN_IBLOCK_ID,
         'NAME' => 'Жалоба',
         'ACTIVE' => 'Y',
         'ACTIVE_FROM' => $currentDate,
         'PROPERTY_VALUES' => $props,
     ];
     
-    //$productId = $el->Add($arLoadProductArray);
+    if ($productId = $el->Add($arLoadProductArray)) {
+        $result = GetMessage('SUCCESS') . $productId;
+    } else {
+        $result = GetMessage('ERROR');
+    }
+    ?>
     
-    //$arResult['RESULT'] = 'test';
-    
-    if ($arParams['CUSTOM_AJAX'] == 'Y'): ?>
-        <script>
+    <script>
+        <? if ($arParams['CUSTOM_AJAX'] == 'Y'): ?>
             $('.complainForm').on('submit', function(e) {
                 e.preventDefault();
                 
+                var formResult = $('.complainForm__result');
+                
                 $.ajax({
                     method: 'POST',
-                    url: '',
-                    success: function(data) {
-                        
+                    url: './',
+                    success: function(res) {
+                        formResult.html('<?= $result; ?>');
                     }
-                });
-                
-                console.log('!'); 
+                }); 
             });
-        </script>
-    <? endif;
-}
+        <? else: ?>
+            
+        <? endif; ?>
+    </script>
+<? }

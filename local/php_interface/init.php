@@ -3,6 +3,7 @@ IncludeModuleLangFile(__FILE__);
 
 define("SERVICES_IBLOCK_ID", 3);
 define("FIRM_IBLOCK_ID", 5);
+define("NEWS_COMPLAIN_IBLOCK_ID", 5);
 
 AddEventHandler("main", "OnBeforeEventAdd", array("MyClass", "OnBeforeEventAddHandler"));
 AddEventHandler("main", "OnBuildGlobalMenu", "MyOnBuildGlobalMenu");

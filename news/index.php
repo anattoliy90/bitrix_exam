@@ -90,7 +90,7 @@ $APPLICATION->SetTitle("Новости");
 		"SHOW_404" => "N",
 		"MESSAGE_404" => "",
 		"CANONICAL" => "5",
-		"CUSTOM_AJAX" => "N",
+		"CUSTOM_AJAX" => "Y",
 		"SEF_URL_TEMPLATES" => array(
 			"news" => "",
 			"section" => "",

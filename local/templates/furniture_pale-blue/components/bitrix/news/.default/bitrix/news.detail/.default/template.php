@@ -13,6 +13,7 @@
 	<form class="complainForm" action="./">
 		<input type="hidden" value="">
 		<button type="submit" name="complain_submit" value="Y"><?= GetMessage('COMPLAIN') ?></button>
+		<span class="complainForm__result"></span>
 	</form>
 	
 	<? if(!empty($arResult['RESULT'])) :?>
