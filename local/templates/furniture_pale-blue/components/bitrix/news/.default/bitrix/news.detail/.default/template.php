@@ -9,17 +9,10 @@
 	<?if($arParams["DISPLAY_NAME"]!="N" && $arResult["NAME"]):?>
 		<h3><?=$arResult["NAME"]?></h3>
 	<?endif;?>
-	
-	<form class="complainForm" action="./">
-		<input type="hidden" value="">
+	<form class="complainForm" action="<?= POST_FORM_ACTION_URI; ?>">
 		<button type="submit" name="complain_submit" value="Y"><?= GetMessage('COMPLAIN') ?></button>
 		<span class="complainForm__result"></span>
 	</form>
-	
-	<? if(!empty($arResult['RESULT'])) :?>
-		<div class="result"><?= $arResult['RESULT']; ?></div>
-	<?endif;?>
-	
 	<div class="news-detail">
 	<?if($arParams["DISPLAY_PREVIEW_TEXT"]!="N" && $arResult["FIELDS"]["PREVIEW_TEXT"]):?>
 		<p><?=$arResult["FIELDS"]["PREVIEW_TEXT"];unset($arResult["FIELDS"]["PREVIEW_TEXT"]);?></p>

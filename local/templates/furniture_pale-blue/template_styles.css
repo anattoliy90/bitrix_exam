@@ -379,3 +379,7 @@ div.menu-clear-left { clear:left; }
 
 /*Common Elements */
 div.content-form { padding-left:1em; }
+
+.complainForm {
+	margin-bottom: 20px;
+}

@@ -4,23 +4,24 @@ if(!empty($arResult["CANONICAL"])) {
     $APPLICATION->SetPageProperty("canonical", $arResult["CANONICAL"]);
 }
 
-if ($_REQUEST['complain_submit'] == 'Y') {
-    $result = '';
+function makeComplain($id) {
+    global $USER;
     $currentDate = date('d.m.Y H:i:s');
     $user = 'Не авторизован';
+    $result = '';
     
     if ($USER->IsAuthorized()) {
         $rsUser = CUser::GetByID($USER->GetID());
         $arUser = $rsUser->Fetch();
         
-        $user = $arUser['ID'] . ', ' .  $arUser['LOGIN'] . ', ' . $arUser['LAST_NAME'] . $arUser['NAME'] . $arUser['SECOND_NAME'];
+        $user = $arUser['ID'] . ', ' .  $arUser['LOGIN'] . ', ' . $arUser['LAST_NAME'] . ' ' . $arUser['NAME'] . ' ' . $arUser['SECOND_NAME'];
     }
 
     $el = new CIBlockElement;
 
     $props = [];
-    $props[9] = $user;
-    $props[10] = $arResult['ID'];
+    $props['USER'] = $user;
+    $props['NEWS'] = $id;
 
     $arLoadProductArray = [
         'IBLOCK_ID' => NEWS_COMPLAIN_IBLOCK_ID,
@@ -35,25 +36,36 @@ if ($_REQUEST['complain_submit'] == 'Y') {
     } else {
         $result = GetMessage('ERROR');
     }
-    ?>
     
-    <script>
-        <? if ($arParams['CUSTOM_AJAX'] == 'Y'): ?>
-            $('.complainForm').on('submit', function(e) {
-                e.preventDefault();
-                
-                var formResult = $('.complainForm__result');
-                
-                $.ajax({
-                    method: 'POST',
-                    url: './',
-                    success: function(res) {
-                        formResult.html('<?= $result; ?>');
-                    }
-                }); 
-            });
-        <? else: ?>
+    return $result;
+}
+
+if ($_REQUEST['complain_submit'] == 'Y') {
+    if ($arParams['CUSTOM_AJAX'] == 'Y') {
+        $APPLICATION->RestartBuffer();
+        echo makeComplain($arResult['ID']);
+        die();
+    } else { ?>
+        <script>
+            $('.complainForm__result').html('<?= makeComplain($arResult['ID']); ?>');
+        </script>
+    <? }
+}
+?>
+    
+<script>
+    <? if ($arParams['CUSTOM_AJAX'] == 'Y'): ?>
+        $('.complainForm').on('submit', function(e) {
+            e.preventDefault();
             
-        <? endif; ?>
-    </script>
-<? }
+            $.ajax({
+                method: 'POST',
+                url: '<?= POST_FORM_ACTION_URI; ?>',
+                data: 'complain_submit=Y',
+                success: function(res) {
+                    $('.complainForm__result').html(res);
+                }
+            });
+        });
+    <? endif; ?>
+</script>
